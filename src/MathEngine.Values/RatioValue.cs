@@ -39,12 +39,16 @@ public class RatioValue : Value
 		if (ConstantValue.One.Equals(Denominator)) return Numerator;
 		if (Denominator.Equals(Numerator)) return ConstantValue.One;
 
-		// try to find a common denominator if both are rational
-
-		if (Numerator is RatioValue { ContainsOnlyRationalParts: true } numer &&
-			Denominator is RatioValue { ContainsOnlyRationalParts: true } denom)
+		// remove complex fractions [check for denom also]
+		if (Numerator is RatioValue && Numerator is not ConstantValue && Numerator is not SpecialConstant)
 		{
+		}
 
+		// try to find a common denominator if both are integral (yes, common denominators can be found otherwise, but focus on integers for this case)
+
+		if (Numerator is ConstantValue { IsMadeOfIntegralParts: true } numer &&
+			Denominator is ConstantValue { IsMadeOfIntegralParts: true } denom)
+		{
 		}
 
 		return this;
