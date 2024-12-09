@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ExtendedNumerics.BigComplex" Version="3000.0.0.316" />
+    <PackageReference Include="ExtendedNumerics.BigRational" Version="3000.0.1.326" />
+    <PackageReference Include="Rationals" Version="2.3.0" />
+  </ItemGroup>
+
 </Project>

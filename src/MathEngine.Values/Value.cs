@@ -1,13 +1,14 @@
-using System.Numerics;
+using MathEngine.Values.Arithmetic;
+using MathEngine.Values.Real;
 
 namespace MathEngine.Values;
 
 
-// TODO: maybe make everything real-valued for now?
 public abstract class Value
 {
-	public abstract Complex Approximate();
-	public abstract Value Simplify();
+	public abstract BigComplex Approximate();
 	public abstract override string ToString();
-	public abstract bool Equals(Value other);
+	public virtual Value Simplify() => this;
+	public Value Reciprocal() => new ReciprocalValue(this);
+	public Value Negated() => new NegatedValue(this);
 }
