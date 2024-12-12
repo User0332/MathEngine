@@ -1,20 +1,20 @@
 using MathEngine.Values.Real;
 using MathEngine.Values.Real.RationalValues;
 
-namespace MathEngine.Values.Arithmetic;
+namespace MathEngine.Values.Real.Arithmetic;
 
-public sealed class NegatedValue(Value inner) : Value
+public sealed class RealNegatedValue(RealValue inner) : RealValue
 {
-	public static readonly Value Identity = IntegerValue.Zero;
+	public static readonly RealValue Identity = IntegerValue.Zero;
 
-	public readonly Value InnerValue = inner.Simplify();
+	public readonly RealValue InnerValue = inner.Simplify();
 
 	public override BigComplex Approximate()
 	{
 		return -InnerValue.Approximate();
 	}
 
-	public override Value Simplify()
+	public override RealValue Simplify()
 	{
 		if (InnerValue is RealValue real)
 		{
@@ -24,7 +24,7 @@ public sealed class NegatedValue(Value inner) : Value
 			}
 		}
 
-		if (InnerValue is NegatedValue inner) return inner.InnerValue; // the nested negates cancel out
+		if (InnerValue is RealNegatedValue inner) return inner.InnerValue; // the nested negates cancel out
 
 		return this;
 	}

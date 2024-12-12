@@ -1,20 +1,20 @@
 using MathEngine.Values.Real;
 using MathEngine.Values.Real.RationalValues;
 
-namespace MathEngine.Values.Arithmetic;
+namespace MathEngine.Values.Real.Arithmetic;
 
-public sealed class ReciprocalValue(Value inner) : Value
+public sealed class RealReciprocalValue(RealValue inner) : RealValue
 {
-	public static readonly Value Identity = IntegerValue.One;
+	public static readonly RealValue Identity = IntegerValue.One;
 
-	public readonly Value InnerValue = inner.Simplify();
+	public readonly RealValue InnerValue = inner.Simplify();
 
 	public override BigComplex Approximate()
 	{
 		return 1/InnerValue.Approximate();
 	}
 
-	public override Value Simplify()
+	public override RealValue Simplify()
 	{
 		if (InnerValue is RealValue real)
 		{
@@ -24,7 +24,7 @@ public sealed class ReciprocalValue(Value inner) : Value
 			}
 		}
 
-		if (InnerValue is ReciprocalValue inner) return inner.InnerValue; // the nested reciprocals cancel out
+		if (InnerValue is RealReciprocalValue inner) return inner.InnerValue; // the nested reciprocals cancel out
 
 		return this;
 	}

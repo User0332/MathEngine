@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace MathEngine.Values.Real.RationalValues;
 
-public class IntegerValue(BigInteger val) : RationalValue(val)
+public sealed class IntegerValue(BigInteger val) : RationalValue(val)
 {
 	public static readonly IntegerValue One = new(1);
 	public static readonly IntegerValue Zero = new(0);

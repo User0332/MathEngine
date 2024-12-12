@@ -1,11 +1,13 @@
 using MathEngine.Values.Real.RationalValues;
 
-namespace MathEngine.Values.Arithmetic;
+namespace MathEngine.Values.Real.Arithmetic;
 
-public class TermValue(Value left, Value right) : Value
+public sealed class RealSumValue(RealValue left, RealValue right) : RealValue
 {
-	public readonly Value Left = left.Simplify();
-	public readonly Value Right = right.Simplify();
+	public static readonly RealValue Identity = IntegerValue.Zero;
+
+	public readonly RealValue Left = left.Simplify();
+	public readonly RealValue Right = right.Simplify();
 
 
 	public override BigComplex Approximate()
@@ -13,7 +15,7 @@ public class TermValue(Value left, Value right) : Value
 		return Left.Approximate()+Right.Approximate();
 	}
 
-	public override Value Simplify()
+	public override RealValue Simplify()
 	{
 		return (Left is RationalValue leftRat && Right is RationalValue rightRat) ? new RationalValue(leftRat.InnerValue+rightRat.InnerValue) : this;
 	}

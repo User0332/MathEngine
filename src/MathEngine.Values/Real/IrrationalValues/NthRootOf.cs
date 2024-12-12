@@ -1,13 +1,15 @@
 using System.Numerics;
+using MathEngine.Values.Arithmetic;
+using MathEngine.Values.Real.Arithmetic;
 using MathEngine.Values.Real.RationalValues;
 using Rationals;
 
 namespace MathEngine.Values.Real.IrrationalValues;
 
 // TODO: fix 
-public class NthRootOf(RealValue baseNum, RealValue n) : PotentiallyIrrationalValue
+public class NthRootOf(Value baseNum, RealValue n)
+	: NthPowerOf(baseNum, new RealReciprocalValue(n).Simplify())
 {
-	public readonly RealValue Base = baseNum.Simplify();
 	public readonly RealValue Root = n.Simplify();
 
 	public override BigComplex Approximate()

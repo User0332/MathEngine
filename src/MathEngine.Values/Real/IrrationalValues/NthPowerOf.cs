@@ -2,9 +2,9 @@ using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Values.Real.IrrationalValues;
 
-public class NthPowerOf(RealValue baseNum, RealValue n) : PotentiallyIrrationalValue
+public class NthPowerOf(Value baseNum, RealValue n) : PotentiallyIrrationalValue
 {
-	public readonly RealValue Base = baseNum.Simplify();
+	public readonly Value Base = baseNum.Simplify();
 	public readonly RealValue Power = n.Simplify();
 
 	bool CanBeSimplifiedViaRationals =>

@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2A54F2E8-D09
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathEngine.Values", "src\MathEngine.Values\MathEngine.Values.csproj", "{86E8DF3D-AA09-4A99-9B68-B8669305AE87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathEngine.Algebra", "src\MathEngine.Algebra\MathEngine.Algebra.csproj", "{92EA962C-C98F-43A8-9BB6-F545E0BAFC37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +22,13 @@ Global
 		{86E8DF3D-AA09-4A99-9B68-B8669305AE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86E8DF3D-AA09-4A99-9B68-B8669305AE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E8DF3D-AA09-4A99-9B68-B8669305AE87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92EA962C-C98F-43A8-9BB6-F545E0BAFC37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92EA962C-C98F-43A8-9BB6-F545E0BAFC37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92EA962C-C98F-43A8-9BB6-F545E0BAFC37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92EA962C-C98F-43A8-9BB6-F545E0BAFC37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86E8DF3D-AA09-4A99-9B68-B8669305AE87} = {2A54F2E8-D098-4A1A-B870-C16825DE48EB}
+		{92EA962C-C98F-43A8-9BB6-F545E0BAFC37} = {2A54F2E8-D098-4A1A-B870-C16825DE48EB}
 	EndGlobalSection
 EndGlobal

@@ -1,13 +1,14 @@
+using MathEngine.Values.Real;
 using MathEngine.Values.Real.RationalValues;
 
-namespace MathEngine.Values.Arithmetic;
+namespace MathEngine.Values.Real.Arithmetic;
 
-public sealed class ProductValue(Value left, Value right) : Value
+public sealed class RealProductValue(RealValue left, RealValue right) : RealValue
 {
-	public static readonly Value Identity = IntegerValue.One;
+	public static readonly RealValue Identity = IntegerValue.One;
 	
-	public readonly Value Left = left.Simplify();
-	public readonly Value Right = right.Simplify();
+	public readonly RealValue Left = left.Simplify();
+	public readonly RealValue Right = right.Simplify();
 
 
 	public override BigComplex Approximate()
@@ -15,7 +16,7 @@ public sealed class ProductValue(Value left, Value right) : Value
 		return Left.Approximate()*Right.Approximate();
 	}
 
-	public override Value Simplify()
+	public override RealValue Simplify()
 	{
 		return (Left is RationalValue leftRat && Right is RationalValue rightRat) ? new RationalValue(leftRat.InnerValue*rightRat.InnerValue) : this;
 	}

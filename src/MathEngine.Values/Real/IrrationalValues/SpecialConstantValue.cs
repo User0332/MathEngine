@@ -2,7 +2,7 @@ using Rationals;
 
 namespace MathEngine.Values.Real.IrrationalValues;
 
-public class SpecialConstantValue(string repr, Rational resolvesTo) : IrrationalValue
+public sealed class SpecialConstantValue(string repr, Rational resolvesTo) : IrrationalValue
 {
 	public static readonly SpecialConstantValue PI = new("π", Math.PI);
 	public static readonly SpecialConstantValue E = new("e", Math.E);
