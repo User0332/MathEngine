@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+using MathEngine.Algebra.Expressions;
 
 namespace MathEngine.Algebra.Equations;
 
