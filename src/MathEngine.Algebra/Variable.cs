@@ -7,6 +7,13 @@ namespace MathEngine.Algebra;
 
 public sealed class Variable(char ident, string subscript = "") : Term, IEquatable<Variable>
 {
+	public static readonly Variable X = new('x');
+	public static readonly Variable Y = new('y');
+	public static readonly Variable Z = new('z');
+	public static readonly Variable T = new('t');
+	public static readonly Variable U = new('u');
+	public static readonly Variable V = new('v');
+	
 	public readonly string FullName = ident+subscript;
 	public readonly char Name = ident;
 	public readonly string Subscript = subscript;

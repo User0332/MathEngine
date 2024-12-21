@@ -10,12 +10,13 @@ public class Expression(ImmutableArray<Term> terms, bool isNegated = false, bool
 	public readonly bool IsReciprocal = IsReciprocal;
 
 	public static implicit operator Expression(Product prod) => new([ (ProductTerm) prod ]);
+	public static implicit operator Expression(ImmutableArray<Term> terms) => new(terms);
 
 	public Expression Negate() => new(Terms, !IsNegated, IsReciprocal);
 	public Expression Reciprocal() => new(Terms, IsNegated, !IsReciprocal);
 
 	public override string ToString()
 	{
-		return $"({string.Join(")(", Terms)})";
+		return $"({string.Join("+", Terms)})";
 	}
 }
