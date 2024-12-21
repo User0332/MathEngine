@@ -1,18 +1,14 @@
 ﻿using ExtendedNumerics;
+using MathEngine.Algebra.Expressions;
 using MathEngine.Values;
 
 namespace MathEngine.Algebra;
 
-public sealed class Variable(char ident, string subscript = "") : Value
+public sealed class Variable(char ident, string subscript = "") : Term
 {
 	public readonly string FullName = ident+subscript;
 	public readonly char Name = ident;
 	public readonly string Subscript = subscript;
-
-	public override BigComplex Approximate()
-	{
-		throw new NotImplementedException();
-	}
 
 	public override string ToString()
 	{

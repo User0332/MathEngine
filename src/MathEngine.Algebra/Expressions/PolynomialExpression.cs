@@ -1,30 +1,44 @@
 using System.Collections.Immutable;
 using MathEngine.Values;
-using MathEngine.Values.Arithmetic;
 using MathEngine.Values.Real.IrrationalValues;
 using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Algebra.Expressions;
 
-public class PolynomialExpression(params ImmutableArray<Factor> factors) : Expression(ValidateFactors(factors))
+public class PolynomialExpression(params ImmutableArray<Term> terms) : Expression(ValidateTerms(terms))
 {
-	static ImmutableArray<Factor> ValidateFactors(ImmutableArray<Factor> factors) // always returns true
+	static ImmutableArray<Term> ValidateTerms(ImmutableArray<Term> terms) // always returns true
 	{
 		Variable? usingVar = null;
 
-		foreach (var factor in factors)
+		foreach (var term in terms)
 		{
-			foreach (var term in factor.Terms)
+			ValidateTerm(term, ref usingVar);
+		}
+
+		if (usingVar is null) throw new ArgumentException("no variable used in polynomial expression");
+
+		return terms;
+	}
+
+	static void ValidateTerm(Term term, ref Variable? usingVar) // always returns true
+	{
+		if (term.IsValueTerm)
+		{
+			return ;
+		}
+	
+
+		foreach (var expr in term.Inner.Factors)
+		{
+			foreach (var innerTerm in expr.Terms)
 			{
-				ValidateTerm(term, ref usingVar);
+				ValidateTerm(innerTerm, ref usingVar);
 			}
 		}
 
-		return factors;
-	}
 
-	static void ValidateTerm(Value term, ref Variable? usingVar) // always returns true
-	{
+
 		if (term is ProductValue product)
 		{
 			ValidateTerm(product.Left, ref usingVar);
