@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
-using MathEngine.Values;
-using MathEngine.Values.Real.IrrationalValues;
+using MathEngine.Algebra.Expressions.Terms;
 using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Algebra.Expressions;
@@ -23,38 +22,35 @@ public class PolynomialExpression(params ImmutableArray<Term> terms) : Expressio
 
 	static void ValidateTerm(Term term, ref Variable? usingVar) // always returns true
 	{
-		if (term.IsValueTerm)
+		if (term is NthPowerOf power)
 		{
-			return ;
-		}
-	
+			Variable? innerVar = null;
 
-		foreach (var expr in term.Inner.Factors)
-		{
-			foreach (var innerTerm in expr.Terms)
-			{
-				ValidateTerm(innerTerm, ref usingVar);
-			}
-		}
+			ValidateTerm(power.Base, ref innerVar);
 
+			if (innerVar is null) return; // no variable used in base
 
+			if (usingVar is not null && innerVar != usingVar) throw new ArgumentException("multiple variables used in polynomial expression");
 
-		if (term is ProductValue product)
-		{
-			ValidateTerm(product.Left, ref usingVar);
-			ValidateTerm(product.Right, ref usingVar);
+			if (power.Power is not ValueTerm valueTerm) throw new ArgumentException("non-constant power used in polynomial expression");
+
+			if (valueTerm.Inner is not IntegerValue) throw new ArgumentException("non-integral power used in polynomial expression");
 
 			return;
 		}
 
-		if (term is NthPowerOf power)
-		{
-			if (power.Base is not Variable var) return; // todo: fix: this would pass a term like (2x+1)**1.42, maybe make a bool UsesVariable() method
-			
-			if (power.Power is not IntegerValue) throw new ArgumentException("non-integral power used in polynomial expression");
+		if (term is ValueTerm) return;
 
-			if (usingVar is null) usingVar = var;
-			else if (usingVar != var) throw new ArgumentException("multiple variables used in polynomial expression");
+
+		if (term is ProductTerm productTerm)
+		{
+			foreach (var expr in productTerm.Inner.Factors)
+			{
+				foreach (var innerTerm in expr.Terms)
+				{
+					ValidateTerm(innerTerm, ref usingVar);
+				}
+			}
 		}
 	}
 }

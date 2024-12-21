@@ -17,12 +17,12 @@ public static class EquationSolver
 	{
 		var expr = eq.SolveFor(var);
 
-		if (expr.Factors.Any(fac => fac.Terms.Any(term => term is Variable)))
+		if (expr.Terms.Any(fac => fac.Terms.Any(term => term is Variable)))
 			throw new InvalidOperationException($"Cannot fully resolve variable {var} to a constant value");
 
 		Value product = ProductValue.Identity;
 
-		foreach (var fac in expr.Factors) 
+		foreach (var fac in expr.Terms) 
 		{
 			Value sum = SumValue.Identity;
 
