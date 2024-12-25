@@ -1,4 +1,4 @@
-// NOTE: CODE IS KEPT HERE SOLELY FOR INTEGRAL ROOT SIMPLICFICATION LATER ON
+// NOTE: CODE IS KEPT HERE SOLELY FOR INTEGRAL ROOT SIMPLICFICATION LATER ON [Also See NthPowerOf.cs]
 // -------------------------------------------------------------------------
 // -------------------------------------------------------------------------
 // -------------------------------------------------------------------------

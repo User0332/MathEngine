@@ -4,89 +4,99 @@ using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Algebra.Expressions;
 
-public class PolynomialExpression(ImmutableArray<Term> terms) : Expression(ValidateTerms(terms))
+public class PolynomialExpression : Expression
 {
-	public readonly int Degree = terms.Select(DegreeOf).Max();
-
-	public override PolynomialExpression Simplify()
+	internal PolynomialExpression(Expression baseTerm)
 	{
-		// multiply everything out
-		var expandedTerms = new List<Term>();
 
-		foreach (var term in Terms)
-		{
-			expandedTerms.Add(term.Simplify());
-		}
+	}
+
+	public static PolynomialExpression From(Expression baseTerm)
+	{
+		return baseTerm as PolynomialExpression ?? new(baseTerm);
+	}
+
+	// public readonly int Degree = terms.Select(DegreeOf).Max();
+
+	// public override PolynomialExpression Simplify()
+	// {
+	// 	// multiply everything out
+	// 	var expandedTerms = new List<Term>();
+
+	// 	foreach (var term in Terms)
+	// 	{
+	// 		expandedTerms.Add(term.Simplify());
+	// 	}
 		
-		// combine like terms
-		var combinedTerms = expandedTerms
-			.GroupBy(DegreeOf)
-			.Select(group => group.Aggregate((term1, term2) => AddLikeTerms(term1, term2)))
-			.ToImmutableArray();
+	// 	// combine like terms
+	// 	var combinedTerms = expandedTerms
+	// 		.GroupBy(DegreeOf)
+	// 		.Select(group => group.Aggregate((term1, term2) => AddLikeTerms(term1, term2)))
+	// 		.ToImmutableArray();
 
-		return new PolynomialExpression(combinedTerms);
+	// 	return new PolynomialExpression(combinedTerms);
 
-		static ProductTerm AddLikeTerms(Term term1, Term term2) // we can make some assumptions here since this function will only ever be called internally when the polynomial expression is split up into terms, each with one variable^power factor each
-		{
-			var defaultSum = new Expression([term1, term2]).AsProduct();
+	// 	static ProductTerm AddLikeTerms(Term term1, Term term2) // we can make some assumptions here since this function will only ever be called internally when the polynomial expression is split up into terms, each with one variable^power factor each
+	// 	{
+	// 		var defaultSum = new Expression([term1, term2]).AsProduct();
 
-			if (term1 is ValueTerm valueTerm1 && term2 is ValueTerm valueTerm2 && valueTerm1.Inner is RationalValue rat1 && valueTerm2.Inner is RationalValue rat2)
-			{
-				return new Product([
-					new RationalValue(rat1.InnerValue + rat2.InnerValue).AsTerm()
-				]);
-			}
+	// 		if (term1 is ValueTerm valueTerm1 && term2 is ValueTerm valueTerm2 && valueTerm1.Inner is RationalValue rat1 && valueTerm2.Inner is RationalValue rat2)
+	// 		{
+	// 			return new Product([
+	// 				new RationalValue(rat1.InnerValue + rat2.InnerValue).AsTerm()
+	// 			]);
+	// 		}
 
-			if (term1 is ProductTerm productTerm1 && term2 is ProductTerm productTerm2)
-			{
-				var product1 = productTerm1.Inner;
-				var product2 = productTerm2.Inner;
+	// 		if (term1 is ProductTerm productTerm1 && term2 is ProductTerm productTerm2)
+	// 		{
+	// 			var product1 = productTerm1.Inner;
+	// 			var product2 = productTerm2.Inner;
 
-				if (product1.Factors[0].Terms[0] is ValueTerm valTerm1 && product2.Factors[0].Terms[0] is ValueTerm valTerm2 && valTerm1.Inner is RationalValue prodRat1 && valTerm2.Inner is RationalValue prodRat2)
-				{
-					return new Product([
-						new RationalValue(prodRat1.InnerValue * prodRat2.InnerValue).AsExpression(),
-						..product1.Factors // in this form the product should only contain one other value
-					]).AsTerm();
-				}
-			}
+	// 			if (product1.Factors[0].Terms[0] is ValueTerm valTerm1 && product2.Factors[0].Terms[0] is ValueTerm valTerm2 && valTerm1.Inner is RationalValue prodRat1 && valTerm2.Inner is RationalValue prodRat2)
+	// 			{
+	// 				return new Product([
+	// 					new RationalValue(prodRat1.InnerValue * prodRat2.InnerValue).AsExpression(),
+	// 					..product1.Factors // in this form the product should only contain one other value
+	// 				]).AsTerm();
+	// 			}
+	// 		}
 
-			return defaultSum;
-		}
-	}
+	// 		return defaultSum;
+	// 	}
+	// }
 
-	public PolynomialExpression Normalize() // sort by degree & put into the coefficient*variable^exp form
-	{
-		return new PolynomialExpression([..Terms.OrderByDescending(DegreeOf)]);
-	}
+	// public PolynomialExpression Normalize() // sort by degree & put into the coefficient*variable^exp form
+	// {
+	// 	return new PolynomialExpression([..Terms.OrderByDescending(DegreeOf)]);
+	// }
 
-	internal ProductTerm? GetTermOfDegree(int degree) // this should ONLY be used by a normalized, simplified PolynomialExpression, so no need to sum the terms, there should be only one root term per degree
-	{
-		return Terms.FirstOrDefault(term => DegreeOf(term) == degree) as ProductTerm;
-	}
+	// internal ProductTerm? GetTermOfDegree(int degree) // this should ONLY be used by a normalized, simplified PolynomialExpression, so no need to sum the terms, there should be only one root term per degree
+	// {
+	// 	return Terms.FirstOrDefault(term => DegreeOf(term) == degree) as ProductTerm;
+	// }
 
-	public static int DegreeOf(Term term)
-	{
-		if (term is NthPowerOf power && power.Base is Variable)
-		{
-			return (int) ((IntegerValue) ((ValueTerm) power.Power).Inner).InnerValue;
-		}
+	// public static int DegreeOf(Term term)
+	// {
+	// 	if (term is NthPowerOf power && power.Base is Variable)
+	// 	{
+	// 		return (int) ((IntegerValue) ((ValueTerm) power.Power).Inner).InnerValue;
+	// 	}
 
-		if (term is Variable) return 1;
+	// 	if (term is Variable) return 1;
 
-		if (term is ValueTerm) return 0;
+	// 	if (term is ValueTerm) return 0;
 
-		if (term is ProductTerm productTerm)
-		{
-			return productTerm.Inner.Factors.Select(expr => {
-				if (expr.IsReciprocal) throw new ArgumentException("Reciprocal terms currently unsupported in polynomial expressions"); // Can fix via Expression.Normalize (invert powers and rationals)
+	// 	if (term is ProductTerm productTerm)
+	// 	{
+	// 		return productTerm.Inner.Factors.Select(expr => {
+	// 			if (expr.IsReciprocal) throw new ArgumentException("Reciprocal terms currently unsupported in polynomial expressions"); // Can fix via Expression.Normalize (invert powers and rationals)
 
-				return expr.ToPolynomial().Degree;
-			}).Sum();
-		}
+	// 			return expr.ToPolynomial().Degree;
+	// 		}).Sum();
+	// 	}
 
-		throw new ArgumentException("Invalid term type");
-	}
+	// 	throw new ArgumentException("Invalid term type");
+	// }
 
 	static ImmutableArray<Term> ValidateTerms(ImmutableArray<Term> terms) // always returns true
 	{
