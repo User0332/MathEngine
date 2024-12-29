@@ -171,4 +171,9 @@ public class PolynomialExpression : Expression
 	{
 		return BaseNode.GetHashCode();
 	}
+
+	public override string Repr()
+	{
+		return BaseNode.Repr();
+	}
 }

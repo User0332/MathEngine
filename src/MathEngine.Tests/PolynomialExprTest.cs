@@ -18,7 +18,9 @@ public static class PolynomialExprTest
 
 		Console.WriteLine(expr);
 		Console.WriteLine(expr.Degree);
+		Console.WriteLine(expr.Repr());
 		Console.WriteLine(normalized);
+		Console.WriteLine(normalized.Repr());
 
 
 		// PolynomialExpression quadratic = new();

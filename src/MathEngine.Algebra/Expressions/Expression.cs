@@ -9,6 +9,7 @@ public abstract class Expression : IEquatable<Expression>
 	internal Expression() { } // only allow internal inheritance
 	
 	public abstract override string ToString();
+	public abstract string Repr();
 	public virtual Expression Simplify() => this;
 
 	public PolynomialExpression ToPolynomial()
@@ -24,7 +25,7 @@ public abstract class Expression : IEquatable<Expression>
 
 		return false;
 	}
-
+ 
 	public abstract bool Equals(Expression? other);
 	public abstract override int GetHashCode();
 

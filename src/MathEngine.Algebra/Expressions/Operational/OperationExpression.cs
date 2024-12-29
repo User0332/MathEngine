@@ -31,4 +31,14 @@ public abstract class OperationExpression : Expression
 	{
 		return $"({Left}){Operator}({Right})";
 	}
+
+	public override string Repr() // string.Replace() used to preserve cascading indentation
+	{
+		var name = GetType().Name;
+
+		return @$"{name}(
+  {Left.Repr().Replace("\n", "\n  ")},
+  {Right.Repr().Replace("\n", "\n  ")}
+)";
+	}
 }

@@ -18,6 +18,11 @@ public sealed class ValueExpression(Value inner) : Expression
 		return inner.GetHashCode();
 	}
 
+	public override string Repr()
+	{
+		return Inner.ToString();
+	}
+
 	public override string ToString()
 	{
 		return Inner.ToString();

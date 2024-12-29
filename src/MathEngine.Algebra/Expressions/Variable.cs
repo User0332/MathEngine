@@ -22,7 +22,7 @@ public sealed class Variable(char ident, string subscript = "") : Expression, IE
 		if (Subscript != string.Empty) return $"{Name}_{Subscript}";
 
 		return Name.ToString();
-		}
+	}
 	
 	public override int GetHashCode()
 	{
@@ -42,6 +42,11 @@ public sealed class Variable(char ident, string subscript = "") : Expression, IE
 	public override bool Equals(Expression? other)
 	{
 		return Equals(other as Variable);
+	}
+
+	public override string Repr()
+	{
+		return ToString();
 	}
 
 	public static bool operator ==(Variable? left, Variable? right)
