@@ -1,11 +1,10 @@
 ﻿using ExtendedNumerics;
 using MathEngine.Algebra.Expressions;
-using MathEngine.Algebra.Expressions.Terms;
 using MathEngine.Values;
 
 namespace MathEngine.Algebra;
 
-public sealed class Variable(char ident, string subscript = "") : Term, IEquatable<Variable>
+public sealed class Variable(char ident, string subscript = "") : Expression, IEquatable<Variable>
 {
 	public static readonly Variable X = new('x');
 	public static readonly Variable Y = new('y');
@@ -38,6 +37,11 @@ public sealed class Variable(char ident, string subscript = "") : Term, IEquatab
 	public override bool Equals(object? obj)
 	{
 		return Equals(obj as Variable);
+	}
+
+	public override bool Equals(Expression? other)
+	{
+		return Equals(other as Variable);
 	}
 
 	public static bool operator ==(Variable? left, Variable? right)

@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using MathEngine.Algebra.Expressions;
+using MathEngine.Algebra.Expressions.Polynomial;
 
 namespace MathEngine.Algebra.Equations;
 

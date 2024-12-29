@@ -20,4 +20,24 @@ public class RationalValue(Rational val) : RealValue
 	{
 		throw new NotImplementedException();
 	}
+
+	public static RationalValue operator +(RationalValue a, RationalValue b)
+	{
+		return new(a.InnerValue + b.InnerValue);
+	}
+
+	public static RationalValue operator -(RationalValue a, RationalValue b)
+	{
+		return new(a.InnerValue - b.InnerValue);
+	}
+
+	public static RationalValue operator *(RationalValue a, RationalValue b)
+	{
+		return new(a.InnerValue * b.InnerValue);
+	}
+
+	public static RationalValue operator /(RationalValue a, RationalValue b)
+	{
+		return new(a.InnerValue / b.InnerValue);
+	}
 }

@@ -1,6 +1,6 @@
 namespace MathEngine.Algebra.Expressions.Operational;
 
-public sealed class AdditionExpression(Expression left, Expression right) : OperationExpression(left, right, '+')
+public sealed class DifferenceExpression(Expression left, Expression right) : OperationExpression(left, right, '-')
 {
 	public override Expression Simplify()
 	{

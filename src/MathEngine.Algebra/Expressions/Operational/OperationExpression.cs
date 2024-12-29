@@ -6,10 +6,20 @@ public abstract class OperationExpression : Expression
 	public readonly Expression Right;
 	public readonly string Operator;
 
+	public override bool Equals(Expression? other)
+	{
+		return other is OperationExpression opExpr && Operator == opExpr.Operator && opExpr.Left == Left && opExpr.Right == Right;
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(Left, Right, Operator);
+	}
+
 	internal OperationExpression(Expression left, Expression right, string op)
 	{
-		Left = left;
-		Right = right;
+		Left = left.Simplify();
+		Right = right.Simplify();
 		Operator = op;
 	}
 
