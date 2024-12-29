@@ -1,5 +1,4 @@
 ﻿using MathEngine.Algebra;
-using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Polynomial;
 
 namespace MathEngine.Tests;
@@ -11,7 +10,7 @@ public static class PolynomialExprTest
 		var x = Variable.X;
 
 		var expr = PolynomialExpression.From(
-			(x^2) + 2*x + 1
+			(x^2) + 2*x + 1 + (-4*x)
 		);
 
 		var normalized = expr.Normalize();

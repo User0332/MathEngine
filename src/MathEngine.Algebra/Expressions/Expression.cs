@@ -25,6 +25,15 @@ public abstract class Expression : IEquatable<Expression>
 
 		return false;
 	}
+
+	public bool ContainsVariable(Variable testFor)
+	{
+		if (this is Variable innerVar && innerVar == testFor) return true;
+
+		if (this is OperationExpression opExpr) return opExpr.Left.ContainsVariable(testFor) || opExpr.Right.ContainsVariable(testFor);
+
+		return false;
+	}
  
 	public abstract bool Equals(Expression? other);
 	public abstract override int GetHashCode();

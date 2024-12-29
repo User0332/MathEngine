@@ -4,27 +4,86 @@ namespace MathEngine.Algebra.Expressions.Operational;
 
 public sealed class SumExpression(Expression left, Expression right) : OperationExpression(left, right, '+')
 {
-	public override Expression Simplify() // combine like terms, but only if the coefficient can be resolved to a non-SumExpression value, (so distributive property and combining like terms do not get infinitely recursively applied)
+	public List<Expression> FlattenIntoTerms()
+	{	
+		List<Expression> terms = [];
+
+		if (Left is SumExpression sumL) terms.AddRange(sumL.FlattenIntoTerms());
+		else terms.Add(Left);
+	
+		if (Right is SumExpression sumR) terms.AddRange(sumR.FlattenIntoTerms());
+		else terms.Add(Right);
+
+		return terms;
+	}
+
+	public static SumExpression FromTerms(List<Expression> terms)
 	{
-		if (Left.Equals(Right)) return new ProductExpression((ValueExpression) 2, Left);
+		var count = terms.Count;
+
+		if (count < 2) throw new ArgumentException("Cannot create SumExpression of less than two terms");
+		if (count == 2) return new SumExpression(terms[0], terms[1]);
+
+		// after our base case, use recursion to complete the task
+		return new SumExpression(terms[0], FromTerms(terms[1..count]));
+	}
+
+	public override Expression Simplify()
+	{
+		if (Left.Equals(Right)) return new ProductExpression((ValueExpression) 2, Left).Simplify();
 		
 		if (Left is ValueExpression valExprL && Right is ValueExpression valExprR && valExprL.Inner is RationalValue ratL && valExprR.Inner is RationalValue ratR)
 		{
 			return new ValueExpression(ratR+ratL);
 		}
 
-		var firstTry = InternalTryCombineLikeTerms(Left, Right);
+		// break the sum down into a list of summed exprs
+		var terms = FlattenIntoTerms();
 
-		if (firstTry is not null) return firstTry;
+		// Console.WriteLine(string.Join(", ", terms.Select(term => term.GetType().Name)));
 
-		var secondTry = InternalTryCombineLikeTerms(Right, Left);
+		// check each term against every other term to attempt to combine as many like terms as possible, then add everything together at the end
 
-		if (secondTry is not null) return secondTry;
+		HashSet<int> combinedAlready = [];
+		List<Expression> combinedTerms = [];
+		
+		for (int i = 0; i < terms.Count; i++) // we will use indicies to identify SumExpression elements since both reference & default equality will not work - a user could pass the same term to both sides of a SumExpression
+		{
+			var termL = terms[i];
 
-		return this;
+			if (combinedAlready.Contains(i)) continue;
+
+			for (int j = 0; j < terms.Count; j++)
+			{
+				var termR = terms[j];
+
+				if (i == j || combinedAlready.Contains(j)) continue;
+
+				var combineTry = InternalTryCombineLikeTerms(termL, termR);
+
+				if (combineTry is not null) // combining like terms was successful, register these terms as used
+				{
+					combinedAlready.Add(i);
+					combinedAlready.Add(j);
+					combinedTerms.Add(combineTry);
+				}
+			}
+		}
+
+		for (int i = 0; i < terms.Count; i++)
+		{
+			if (combinedAlready.Contains(i)) continue;
+
+			combinedTerms.Add(terms[i]); // add on all of our terms that we did not combine/simplify
+		}
+
+		var simpl = FromTerms(combinedTerms); // convert terms back to SumExpression and the simplified expression
+	
+		return simpl;
 	}
 	
-	static ProductExpression? InternalTryCombineLikeTerms(Expression left, Expression right)
+	// TODO: right now, this only searches for ProductExpressions, but this won't work for terms where the coefficient is 1 and there is no ProductExpression
+	static ProductExpression? InternalTryCombineLikeTerms(Expression left, Expression right) // combine like terms, do not simplify the returned ProductExpression so distributive property and combining like terms do not get infinitely recursively applied
 	{
 		if (left is ProductExpression prodExprL && right is ProductExpression prodExprR)
 		{
@@ -34,10 +93,17 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 				var coeffTwo = prodExprL.Right;
 				var coeffSum = (coeffOne+coeffTwo).Simplify();
 
-				if (coeffSum is not SumExpression) // we can resolve this to lower than a sum!
-				{
-					return new ProductExpression(coeffSum, prodExprL.Left); // prodExpr*.Left is the value being multiplied by the coefficient
-				}
+				return new ProductExpression(coeffSum, prodExprL.Left); // prodExpr*.Left is the "like" part of the like terms
+			}
+		
+			// TODO: maybe modularize this to minimize repeat code later
+			if (prodExprR.Right.Equals(prodExprL.Right))
+			{
+				var coeffOne = prodExprR.Left;
+				var coeffTwo = prodExprL.Left;
+				var coeffSum = (coeffOne+coeffTwo).Simplify();
+
+				return new ProductExpression(coeffSum, prodExprL.Right); // prodExpr*.Right is the "like" part of the like terms
 			}
 		}
 
