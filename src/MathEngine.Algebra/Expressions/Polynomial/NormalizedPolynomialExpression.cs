@@ -1,16 +1,24 @@
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 using MathEngine.Algebra.Expressions.Operational;
-using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Algebra.Expressions.Polynomial;
 
-// public sealed class NormalizedPolynomialExpression : PolynomialExpression
-// {
-// 	public PolynomialExpression TermOfDegree(int degree)
-// 	{
-// 		if (degree < 0 || degree > Degree) throw new ArgumentException($"No term of degree {degree} exists in the NormalizedPolynomialExpression");
+public sealed class NormalizedPolynomialExpression : PolynomialExpression
+{
+	public readonly ImmutableArray<Expression> NormalizedTerms;
 
-// 		return BaseNode.
-// 	}
-// }
+	internal NormalizedPolynomialExpression(Expression[] terms) : base(SumExpression.FromTerms(terms))
+	{
+		NormalizedTerms = ImmutableArray.Create(terms);
+	}
+
+	public Expression GetTermOfDegree(int degree)
+	{
+		return NormalizedTerms[^(degree+1)];
+	}
+
+	public static new NormalizedPolynomialExpression From(Expression expr)
+	{
+		return PolynomialExpression.From(expr).Normalize();
+	}
+}

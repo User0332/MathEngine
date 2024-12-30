@@ -4,6 +4,6 @@ public sealed class DifferenceExpression(Expression left, Expression right) : Op
 {
 	public override Expression Simplify()
 	{
-		throw new NotImplementedException();
+		return this; // TODO: implement similar to SumExpression
 	}
 }

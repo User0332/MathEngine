@@ -57,6 +57,11 @@ public abstract class Expression : IEquatable<Expression>
 		return new(self, other);
 	}
 
+	public static DifferenceExpression operator -(Expression self)
+	{
+		return new((ValueExpression) 0, self);
+	}
+
 	public static ProductExpression operator *(Expression self, Expression other)
 	{
 		return new(self, other);

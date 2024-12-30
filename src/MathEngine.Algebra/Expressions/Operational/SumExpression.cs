@@ -4,28 +4,33 @@ namespace MathEngine.Algebra.Expressions.Operational;
 
 public sealed class SumExpression(Expression left, Expression right) : OperationExpression(left, right, '+')
 {
-	public List<Expression> FlattenIntoTerms()
+	public List<Expression> ToTerms()
 	{	
 		List<Expression> terms = [];
 
-		if (Left is SumExpression sumL) terms.AddRange(sumL.FlattenIntoTerms());
+		if (Left is SumExpression sumL) terms.AddRange(sumL.ToTerms());
 		else terms.Add(Left);
 	
-		if (Right is SumExpression sumR) terms.AddRange(sumR.FlattenIntoTerms());
+		if (Right is SumExpression sumR) terms.AddRange(sumR.ToTerms());
 		else terms.Add(Right);
 
 		return terms;
 	}
 
-	public static SumExpression FromTerms(List<Expression> terms)
+	public static SumExpression FromTerms(IList<Expression> terms)
 	{
-		var count = terms.Count;
+		return FromTermsInternal(terms, 0);
+	}
+
+	static SumExpression FromTermsInternal(IList<Expression> terms, int startAt)
+	{
+		var count = terms.Count-startAt;
 
 		if (count < 2) throw new ArgumentException("Cannot create SumExpression of less than two terms");
-		if (count == 2) return new SumExpression(terms[0], terms[1]);
+		if (count == 2) return new SumExpression(terms[startAt], terms[startAt+1]);
 
 		// after our base case, use recursion to complete the task
-		return new SumExpression(terms[0], FromTerms(terms[1..count]));
+		return new SumExpression(terms[startAt], FromTermsInternal(terms, startAt+1));
 	}
 
 	public override Expression Simplify()
@@ -38,7 +43,7 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 		}
 
 		// break the sum down into a list of summed exprs
-		var terms = FlattenIntoTerms();
+		var terms = ToTerms();
 
 		// Console.WriteLine(string.Join(", ", terms.Select(term => term.GetType().Name)));
 

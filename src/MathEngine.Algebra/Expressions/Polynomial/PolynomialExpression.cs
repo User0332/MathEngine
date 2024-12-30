@@ -37,15 +37,73 @@ public class PolynomialExpression : Expression
 	/// <para>Any terms whose coefficient (a, b, c, ...) is zero are still included in the normalized polynomial</para>
 	/// </summary>
 	/// <returns>A mathematically equivalent PolynomialExpression in normalized form</returns>
-	public PolynomialExpression Normalize()
+	public NormalizedPolynomialExpression Normalize()
 	{
-		return new(BaseNode.Simplify());
-		// var terms = new List<Expression>();
-		// CollectTerms(BaseNode, terms);
+		var simpl = BaseNode.Simplify();
 
-		// Expression normalizedExpr = terms.Aggregate((acc, term) => new SumExpression(acc, term));
+		List<Expression> terms;
+
+		if (simpl is SumExpression sumExpr) terms = sumExpr.ToTerms();
+		else terms = [simpl];
+
+		// sort terms by degree, add missing terms, and add missing (1) coefficients
+
+		var normalizedTerms = new Expression[Degree+1];
 		
-		// return new(normalizedExpr);
+		// fill with constant term first or zero for the constant term if it doesn't exist
+		normalizedTerms[^1] = terms.FirstOrDefault(term => !term.ContainsVariable(), (ValueExpression) 0);
+
+
+		foreach (var term in terms)
+		{
+			if (ReferenceEquals(term, normalizedTerms[^1])) continue; // skip constant term
+
+			var degree = DegreeOf(term);
+
+			normalizedTerms[^(degree+1)] = NormalizeSimplifiedTerm(term);
+		}
+
+		// now fill null terms (missing degrees) with 0 coefficients
+		for (int i = 0; i < normalizedTerms.Length; i++)
+		{
+			if (normalizedTerms[i] is null)
+			{
+				normalizedTerms[i] = new ProductExpression(
+					(ValueExpression) 0,
+					new PowerExpression(
+						Variable, (ValueExpression) Degree-i
+					)	
+				);
+			}
+		}
+
+		return new(normalizedTerms);
+	}
+
+	static ProductExpression NormalizeSimplifiedTerm(Expression term)
+	{
+		if (term is ProductExpression prodExpr)
+		{
+			if (prodExpr.Left.ContainsVariable())
+			{
+				prodExpr = new(prodExpr.Right, prodExpr.Left); // swap values so coefficient is always in the Left field
+			}
+
+
+			if (prodExpr.Right is Variable)
+			{
+				prodExpr = new(prodExpr.Left, new PowerExpression(prodExpr.Right, (ValueExpression) 1)); // make sure each term has a power (except the constant term)
+			}
+
+			return prodExpr;
+		}
+
+		return NormalizeSimplifiedTerm(new ProductExpression((ValueExpression) 1, term)); // make sure there is a product of coefficient and variable-based expression
+	}
+
+	public static int DegreeOf(Expression expr)
+	{
+		return From(expr).Degree; // TODO: maybe change to upgrade performance?
 	}
 
 	static void CollectTerms(Expression expr, List<Expression> terms)

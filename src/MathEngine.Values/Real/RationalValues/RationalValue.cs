@@ -18,7 +18,7 @@ public class RationalValue(Rational val) : RealValue
 
 	public override string ToString()
 	{
-		throw new NotImplementedException();
+		return InnerValue.ToString();
 	}
 
 	public static RationalValue operator +(RationalValue a, RationalValue b)
