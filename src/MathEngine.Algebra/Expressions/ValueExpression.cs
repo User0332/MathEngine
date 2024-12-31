@@ -10,7 +10,12 @@ public sealed class ValueExpression(Value inner) : Expression
 
 	public override bool Equals(Expression? other)
 	{
-		return Inner.Equals(other); // TODO: this is not actually implemented properly for Value objects, so Value.Equals needs to be a required abstract member
+		return Equals(other as ValueExpression); // TODO: this is not actually implemented properly for Value objects, so Value.Equals needs to be a required abstract member
+	}
+
+	public bool Equals(ValueExpression? other)
+	{
+		return Inner.Equals(other?.Inner);
 	}
 
 	public override int GetHashCode()
