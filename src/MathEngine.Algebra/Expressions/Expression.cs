@@ -1,11 +1,16 @@
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Expressions.Polynomial;
+using MathEngine.Values.Real.RationalValues;
 using Rationals;
 
 namespace MathEngine.Algebra.Expressions;
 
 public abstract class Expression : IEquatable<Expression>
 {
+	public static readonly Expression One = (ValueExpression) IntegerValue.One;
+	public static readonly Expression Zero = (ValueExpression) IntegerValue.Zero;
+	public static readonly Expression NegativeOne = (ValueExpression) IntegerValue.NegativeOne;
+
 	internal Expression() { } // only allow internal inheritance
 	
 	public abstract override string ToString();
@@ -52,14 +57,14 @@ public abstract class Expression : IEquatable<Expression>
 		return new(self, other);
 	}
 
-	public static DifferenceExpression operator -(Expression self, Expression other)
+	public static SumExpression operator -(Expression self, Expression other)
 	{
-		return new(self, other);
+		return new(self, new ProductExpression(NegativeOne, other));
 	}
 
-	public static DifferenceExpression operator -(Expression self)
+	public static ProductExpression operator -(Expression self)
 	{
-		return new((ValueExpression) 0, self);
+		return new ProductExpression(NegativeOne, self);
 	}
 
 	public static ProductExpression operator *(Expression self, Expression other)
@@ -84,9 +89,9 @@ public abstract class Expression : IEquatable<Expression>
 		return new(self, (ValueExpression) other);
 	}
 
-	public static DifferenceExpression operator -(Expression self, Rational other)
+	public static SumExpression operator -(Expression self, Rational other)
 	{
-		return new(self, (ValueExpression) other);
+		return new(self, new ProductExpression(NegativeOne, (ValueExpression) other));
 	}
 
 	public static ProductExpression operator *(Expression self, Rational other)
@@ -110,9 +115,9 @@ public abstract class Expression : IEquatable<Expression>
 		return new((ValueExpression) self, other);
 	}
 
-	public static DifferenceExpression operator -(Rational self, Expression other)
+	public static SumExpression operator -(Rational self, Expression other)
 	{
-		return new((ValueExpression) self, other);
+		return new((ValueExpression) self, new ProductExpression(NegativeOne, other));
 	}
 
 	public static ProductExpression operator *(Rational self, Expression other)

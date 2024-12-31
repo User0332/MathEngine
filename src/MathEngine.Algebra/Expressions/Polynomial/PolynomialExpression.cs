@@ -154,7 +154,7 @@ public class PolynomialExpression : Expression
 	{
 		if (baseExpr is OperationExpression opExpr)
 		{
-			if (opExpr is SumExpression or DifferenceExpression)
+			if (opExpr is SumExpression)
 			{
 				(usingVar, highestDeg) = ValidateNodeInternal(opExpr.Left, highestDeg, usingVar);
 				(usingVar, highestDeg) = ValidateNodeInternal(opExpr.Right, highestDeg, usingVar);

@@ -29,7 +29,7 @@ public static class PolynomialExprTest
 
 		PolynomialEquation eq = new(expr, zeroSide); // TODO: actually implement SetZeroSide
 
-		var solns = eq.Solve(PolynomialSolvingStrategy.ViaFormula);
+		var solns = eq.Solve(PolynomialSolvingStrategy.ViaFormula).Select(soln => soln.Simplify()).Distinct();
 
 		foreach (var soln in solns)
 		{

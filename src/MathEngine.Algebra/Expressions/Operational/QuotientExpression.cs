@@ -7,13 +7,19 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 
 	public override Expression Simplify()
 	{
+		var (simplNumerator, simplDenominator) = (Numerator.Simplify(), Denominator.Simplify());
+
 		Expression? simpl = null;
 
-		// Distributive Property (for 1/n)
-		if (Numerator is SumExpression sumExpr) simpl = new SumExpression(new QuotientExpression(sumExpr.Left, Denominator), new QuotientExpression(sumExpr.Right, Denominator));
-		else if (Numerator is DifferenceExpression diffExpr) simpl = new DifferenceExpression(new QuotientExpression(diffExpr.Left, Denominator), new QuotientExpression(diffExpr.Right, Denominator));
+		if (SimplificationUtils.GetRationalValue(simplNumerator, out var numRat) && SimplificationUtils.GetRationalValue(simplDenominator, out var denomRat))
+		{
+			return SimplificationUtils.ToExpression(numRat/denomRat);
+		}
+
+		// Splitting Numerator (for (x+y)/n)
+		if (simplNumerator is SumExpression sumExpr) simpl = new SumExpression(new QuotientExpression(sumExpr.Left, simplDenominator), new QuotientExpression(sumExpr.Right, simplDenominator));
 		
-		if (simpl is null) return this;
+		if (simpl is null) return new QuotientExpression(simplNumerator, simplDenominator);
 
 		return simpl.Simplify();
 	}

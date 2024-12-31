@@ -36,14 +36,16 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 	public override Expression Simplify()
 	{
 		if (Left.Equals(Right)) return new ProductExpression((ValueExpression) 2, Left).Simplify();
+
+		var (simplLeft, simplRight) = (Left.Simplify(), Right.Simplify());
 		
-		if (Left is ValueExpression valExprL && Right is ValueExpression valExprR && valExprL.Inner is RationalValue ratL && valExprR.Inner is RationalValue ratR)
+		if (SimplificationUtils.GetRationalValue(simplLeft, out var leftRat) && SimplificationUtils.GetRationalValue(simplRight, out var rightRat))
 		{
-			return new ValueExpression(ratR+ratL);
+			return SimplificationUtils.ToExpression(leftRat+rightRat);
 		}
 
 		// break the sum down into a list of summed exprs
-		var terms = ToTerms();
+		var terms = new SumExpression(simplLeft, simplRight).ToTerms();
 
 		// Console.WriteLine(string.Join(", ", terms.Select(term => term.GetType().Name)));
 
@@ -88,7 +90,7 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 	}
 	
 	// TODO: right now, this only searches for ProductExpressions, but this won't work for terms where the coefficient is 1 and there is no ProductExpression
-	static ProductExpression? InternalTryCombineLikeTerms(Expression left, Expression right) // combine like terms, do not simplify the returned ProductExpression so distributive property and combining like terms do not get infinitely recursively applied
+	static Expression? InternalTryCombineLikeTerms(Expression left, Expression right) // combine like terms, do not simplify the returned ProductExpression so distributive property and combining like terms do not get infinitely recursively applied
 	{
 		if (left is ProductExpression prodExprL && right is ProductExpression prodExprR)
 		{
@@ -98,7 +100,11 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 				var coeffTwo = prodExprL.Right;
 				var coeffSum = (coeffOne+coeffTwo).Simplify();
 
-				return new ProductExpression(coeffSum, prodExprL.Left); // prodExpr*.Left is the "like" part of the like terms
+				var combined = new ProductExpression(coeffSum, prodExprL.Left); // prodExpr*.Left is the "like" part of the like terms
+
+				if (coeffSum is not SumExpression) return combined.Simplify(); // do not simplify if the coeffSum is a SumExpression (this will cause infinite distributive property)
+
+				return combined;
 			}
 		
 			// TODO: maybe modularize this to minimize repeat code later
@@ -108,7 +114,11 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 				var coeffTwo = prodExprL.Left;
 				var coeffSum = (coeffOne+coeffTwo).Simplify();
 
-				return new ProductExpression(coeffSum, prodExprL.Right); // prodExpr*.Right is the "like" part of the like terms
+				var combined = new ProductExpression(coeffSum, prodExprL.Right); // prodExpr*.Right is the "like" part of the like terms
+
+				if (coeffSum is not SumExpression) return combined.Simplify(); // do not simplify if the coeffSum is a SumExpression (this will cause infinite distributive property)
+
+				return combined;
 			}
 		}
 

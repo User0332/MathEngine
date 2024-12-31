@@ -62,7 +62,7 @@ public static class EquationSolver
 		switch (strategy)
 		{
 			case PolynomialSolvingStrategy.ViaFormula: return SolveViaFormula(eq);
-			case PolynomialSolvingStrategy.ViaZeroProductProperty: throw new NotImplementedException("solving via factoring and zero product property is currently unsupported");
+			case PolynomialSolvingStrategy.ViaFactoring: throw new NotImplementedException("solving via factoring and zero product property is currently unsupported");
 			default: throw new ArgumentException("Invalid solving strategy");
 		}
 	}
@@ -71,5 +71,7 @@ public static class EquationSolver
 public enum PolynomialSolvingStrategy
 {
 	ViaFormula,
-	ViaZeroProductProperty
+	ViaFactoring,
+	ViaSubstitutionAndFormula,
+	ViaSubstitutionAndFactoring,
 }

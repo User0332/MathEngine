@@ -11,9 +11,24 @@ public class RationalValue(Rational val) : RealValue
 
 	public override RationalValue Simplify()
 	{
-		if (InnerValue.Denominator == 1) return new IntegerValue(val.Numerator);
+		if (InnerValue.Denominator == 1) return new IntegerValue(InnerValue.Numerator);
 
 		return this;
+	}
+
+	public override bool Equals(object? obj)
+	{
+		return Equals(obj as RationalValue);
+	}
+
+	public bool Equals(RationalValue? other)
+	{
+		return other?.InnerValue == InnerValue;
+	}
+
+	public override int GetHashCode()
+	{
+		return InnerValue.GetHashCode();
 	}
 
 	public override string ToString()
@@ -40,4 +55,7 @@ public class RationalValue(Rational val) : RealValue
 	{
 		return new(a.InnerValue / b.InnerValue);
 	}
+
+	public static bool operator ==(RationalValue self, RationalValue other) => self.Equals(other);
+	public static bool operator !=(RationalValue self, RationalValue other) => !(self == other);
 }

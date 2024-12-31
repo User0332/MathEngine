@@ -10,12 +10,12 @@ public sealed class ValueExpression(Value inner) : Expression
 
 	public override bool Equals(Expression? other)
 	{
-		return inner.Equals(other); // TODO: this is not actually implemented properly for Value objects, so Value.Equals needs to be a required abstract member
+		return Inner.Equals(other); // TODO: this is not actually implemented properly for Value objects, so Value.Equals needs to be a required abstract member
 	}
 
 	public override int GetHashCode()
 	{
-		return inner.GetHashCode();
+		return Inner.GetHashCode();
 	}
 
 	public override string Repr()
@@ -29,7 +29,7 @@ public sealed class ValueExpression(Value inner) : Expression
 	}
 
 	public static implicit operator ValueExpression(Value val) => new(val);
-	public static implicit operator ValueExpression(Rational val) => new(new RationalValue(val));
-	public static implicit operator ValueExpression(int val) => new(new IntegerValue(val));
-	public static implicit operator ValueExpression(double val) => new(new RationalValue((Rational) val));
+	public static implicit operator ValueExpression(Rational val) => new RationalValue(val);
+	public static implicit operator ValueExpression(int val) => new IntegerValue(val);
+	public static implicit operator ValueExpression(double val) => (Rational) val;
 }
