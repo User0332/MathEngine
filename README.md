@@ -4,4 +4,6 @@ A set of .NET class libraries that allow mathematical computation in C#, similar
 
 Documentation for the project can be found [here](https://mathengine.readthedocs.io/).
 
-The MathEngine library ecosystem is currently in the process of being published to NuGet.
+The MathEngine packages are available on NuGet
+- `MathEngine.Values`
+- `MathEngine.Algebra`
