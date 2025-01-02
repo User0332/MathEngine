@@ -1,16 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<LangVersion>latest</LangVersion>
-  </PropertyGroup>
+		<Version>0.0.0</Version>
+		<Authors>Carl Furtado</Authors>
+		<PackageId>MathEngine.Values</PackageId>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Copyright>Copyright (c) Carl Furtado 2025</Copyright>
+		<RepositoryUrl>https://github.com/User0332/MathEngine</RepositoryUrl>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ExtendedNumerics.BigComplex" Version="3000.0.0.316" />
-    <PackageReference Include="ExtendedNumerics.BigRational" Version="3000.0.1.326" />
-    <PackageReference Include="Rationals" Version="2.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ExtendedNumerics.BigComplex" Version="3000.0.0.316" />
+		<PackageReference Include="ExtendedNumerics.BigRational" Version="3000.0.1.326" />
+		<PackageReference Include="Rationals" Version="2.3.0" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 </Project>

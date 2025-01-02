@@ -23,6 +23,9 @@ public class PolynomialExpression : Expression
 		return baseTerm as PolynomialExpression ?? new(baseTerm);
 	}
 
+	public static PolynomialExpression ZeroExpr(Variable var) => new(new ProductExpression((ValueExpression) 0, var));
+	public static PolynomialExpression ZeroExpr() => ZeroExpr(Variable.X);
+
 	/// <summary>
 	/// Converts the PolynomialExpression to normalized form where the terms are arranged like so for a given polynomial:
 	/// <para>ax^n + bx^(n-1) + cx^(n-2) + ...</para>
