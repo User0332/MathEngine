@@ -47,8 +47,6 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 		// break the sum down into a list of summed exprs
 		var terms = new SumExpression(simplLeft, simplRight).ToTerms();
 
-		// Console.WriteLine(string.Join(", ", terms.Select(term => term.GetType().Name)));
-
 		// check each term against every other term to attempt to combine as many like terms as possible, then add everything together at the end
 
 		HashSet<int> combinedAlready = [];
@@ -83,6 +81,8 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 
 			combinedTerms.Add(terms[i]); // add on all of our terms that we did not combine/simplify
 		}
+
+		if (combinedTerms.Count == 1) return combinedTerms[0]; // if we only have one term, return that term
 
 		var simpl = FromTerms(combinedTerms); // convert terms back to SumExpression and the simplified expression
 	

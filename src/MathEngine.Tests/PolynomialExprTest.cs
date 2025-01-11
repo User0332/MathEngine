@@ -32,10 +32,35 @@ public static class PolynomialExprTest
 			Console.WriteLine(soln);
 		}
 
+		var secondExpr = PolynomialExpression.From(
+			(3*x+10)*(4*x-15)
+		);
 
-		// PolynomialExpression quadratic = new();
+		Console.WriteLine(secondExpr.Normalize());
 
-		// Console.WriteLine(quadratic);
-		// Console.WriteLine(quadratic.Degree);
+		PolynomialEquation eq2 = new(secondExpr, PolynomialExpression.ZeroExpr());
+
+		var solns2 = eq2.Solve(PolynomialSolvingStrategy.ViaFormula).Select(soln => soln.Simplify()).Distinct();
+
+		foreach (var soln in solns2)
+		{
+			Console.WriteLine(soln);
+		}
+
+
+		var thirdExpr = PolynomialExpression.From(
+			(x^2) + 2*x + 3*x
+		);
+
+		Console.WriteLine(thirdExpr.Simplify());
+
+		PolynomialEquation eq3 = new(thirdExpr, PolynomialExpression.ZeroExpr());
+
+		var solns3 = eq3.Solve(PolynomialSolvingStrategy.ViaFormula).Select(soln => soln.Simplify()).Distinct();
+
+		foreach (var soln in solns3)
+		{
+			Console.WriteLine(soln);
+		}
 	}
 }

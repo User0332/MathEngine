@@ -190,6 +190,8 @@ public class PolynomialExpression : Expression
 				highestDeg = 1;
 			}
 			else if (usingVar != varExpr) throw new ArgumentException("Multiple variables used in polynomial expression");
+
+			highestDeg = Math.Max(highestDeg, 1);
 		}
 
 		return (usingVar, highestDeg);
