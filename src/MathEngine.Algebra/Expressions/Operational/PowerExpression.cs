@@ -74,7 +74,7 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 		if (Exponent is ValueExpression or Variable) expRepr = Exponent.ToString();
 		else expRepr = $"({Exponent})";
 
-		return $"({baseRepr}^{expRepr})";
+		return $"{baseRepr}^{expRepr}";
 	}
 
 	public override string LaTeX()

@@ -103,11 +103,8 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 		if (Left.Equals(NegativeOne)) return $"-{Right}";
 		if (Right.Equals(NegativeOne)) return $"-{Left}";
 
-		if (Left is SumExpression) leftRepr = $"({Left})"; // need to parenthesize lower-order operations (DifferenceExpression doesn't exist anymore, so we only need to account for this case)
-		else leftRepr = Left.ToString();
-
-		if (Right is SumExpression) rightRepr = $"({Right})";
-		else rightRepr = Right.ToString();
+		leftRepr = $"({Left})";
+		rightRepr = $"({Right})";
 
 		if (Left is SumExpression or Variable) return $"{rightRepr}{leftRepr}";
 
