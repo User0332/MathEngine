@@ -92,4 +92,19 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 
 		return FromFactors(combinedFactors);
 	}
+
+	public override string ToString()
+	{
+		string leftRepr, rightRepr;
+
+		if (Left is SumExpression) leftRepr = $"({Left})"; // need to parenthesize lower-order operations (DifferenceExpression doesn't exist anymore, so we only need to account for this case)
+		else leftRepr = Left.ToString();
+
+		if (Right is SumExpression) rightRepr = $"({Right})";
+		else rightRepr = Right.ToString();
+
+		if (Left is SumExpression or Variable) return $"{rightRepr}{leftRepr}";
+
+		return $"{leftRepr}{rightRepr}";
+	}
 }

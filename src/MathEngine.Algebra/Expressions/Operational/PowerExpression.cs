@@ -61,4 +61,17 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 
 		return null;
 	}
+
+	public override string ToString()
+	{
+		string baseRepr, expRepr;
+
+		if (Base is ValueExpression or Variable) baseRepr = Base.ToString(); // only single-char/individually distinguishable values do not need enclosing parentheses
+		else baseRepr = $"({Base})";
+
+		if (Exponent is ValueExpression or Variable) expRepr = Exponent.ToString();
+		else expRepr = $"({Base})";
+
+		return $"{baseRepr}^{expRepr}";
+	}
 }

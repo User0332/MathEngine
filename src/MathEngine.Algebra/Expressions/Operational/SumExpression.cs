@@ -124,4 +124,13 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 
 		return null;
 	}
+
+	public override string ToString()
+	{
+		var (leftRepr, rightRepr) = (Left.ToString(), Right.ToString());
+
+		if (rightRepr.StartsWith('-')) return $"{leftRepr}-{rightRepr[1..]}";
+
+		return $"{leftRepr}+{rightRepr}"; // no need for parens because addition is the lowest order operation
+	}
 }

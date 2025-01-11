@@ -27,11 +27,6 @@ public abstract class OperationExpression : Expression
 
 	public abstract override Expression Simplify();
 
-	public override string ToString()
-	{
-		return $"({Left}){Operator}({Right})";
-	}
-
 	public override string Repr() // string.Replace() used to preserve cascading indentation
 	{
 		var name = GetType().Name;
