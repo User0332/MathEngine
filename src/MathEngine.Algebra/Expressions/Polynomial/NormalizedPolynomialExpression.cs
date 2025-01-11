@@ -21,4 +21,6 @@ public sealed class NormalizedPolynomialExpression : PolynomialExpression
 	{
 		return PolynomialExpression.From(expr).Normalize();
 	}
+
+	public override NormalizedPolynomialExpression Normalize() => this;
 }

@@ -72,8 +72,8 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 		if (SimplificationUtils.GetRationalValue(Exponent, out var expRat) && expRat == IntegerValue.One) return baseRepr;
 
 		if (Exponent is ValueExpression or Variable) expRepr = Exponent.ToString();
-		else expRepr = $"({Base})";
+		else expRepr = $"({Exponent})";
 
-		return $"{baseRepr}^{expRepr}";
+		return $"({baseRepr}^{expRepr})";
 	}
 }

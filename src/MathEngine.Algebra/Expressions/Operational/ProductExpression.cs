@@ -97,6 +97,9 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 	{
 		string leftRepr, rightRepr;
 
+		if (Left.Equals(One)) return Right.ToString();
+		if (Right.Equals(One)) return Left.ToString();
+
 		if (Left is SumExpression) leftRepr = $"({Left})"; // need to parenthesize lower-order operations (DifferenceExpression doesn't exist anymore, so we only need to account for this case)
 		else leftRepr = Left.ToString();
 

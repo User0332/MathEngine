@@ -40,7 +40,7 @@ public class PolynomialExpression : Expression
 	/// <para>Any terms whose coefficient (a, b, c, ...) is zero are still included in the normalized polynomial</para>
 	/// </summary>
 	/// <returns>A mathematically equivalent PolynomialExpression in normalized form</returns>
-	public NormalizedPolynomialExpression Normalize()
+	public virtual NormalizedPolynomialExpression Normalize()
 	{
 		var simpl = BaseNode.Simplify();
 
