@@ -25,7 +25,7 @@ public static class PolynomialExprTest
 
 		PolynomialEquation eq = new(expr, PolynomialExpression.ZeroExpr()); // TODO: actually implement SetZeroSide
 
-		var solns = eq.Solve(PolynomialSolvingStrategy.ViaFormula).Select(soln => soln.Simplify()).Distinct();
+		var solns = eq.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();
 
 		foreach (var soln in solns)
 		{
@@ -40,7 +40,7 @@ public static class PolynomialExprTest
 
 		PolynomialEquation eq2 = new(secondExpr, PolynomialExpression.ZeroExpr());
 
-		var solns2 = eq2.Solve(PolynomialSolvingStrategy.ViaFormula).Select(soln => soln.Simplify()).Distinct();
+		var solns2 = eq2.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();
 
 		foreach (var soln in solns2)
 		{
@@ -56,7 +56,7 @@ public static class PolynomialExprTest
 
 		PolynomialEquation eq3 = new(thirdExpr, PolynomialExpression.ZeroExpr());
 
-		var solns3 = eq3.Solve(PolynomialSolvingStrategy.ViaFormula).Select(soln => soln.Simplify()).Distinct();
+		var solns3 = eq3.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();
 
 		foreach (var soln in solns3)
 		{
