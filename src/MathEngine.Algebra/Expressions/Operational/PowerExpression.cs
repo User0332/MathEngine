@@ -69,6 +69,8 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 		if (Base is ValueExpression or Variable) baseRepr = Base.ToString(); // only single-char/individually distinguishable values do not need enclosing parentheses
 		else baseRepr = $"({Base})";
 
+		if (SimplificationUtils.GetRationalValue(Exponent, out var expRat) && expRat == IntegerValue.One) return baseRepr;
+
 		if (Exponent is ValueExpression or Variable) expRepr = Exponent.ToString();
 		else expRepr = $"({Base})";
 
