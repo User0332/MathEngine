@@ -14,6 +14,7 @@ public abstract class Expression : IEquatable<Expression>
 	internal Expression() { } // only allow internal inheritance
 	
 	public abstract override string ToString();
+	public abstract string LaTeX();
 	public abstract string Repr();
 	public virtual Expression Simplify() => this;
 

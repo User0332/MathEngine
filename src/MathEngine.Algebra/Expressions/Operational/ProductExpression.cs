@@ -113,4 +113,25 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 
 		return $"{leftRepr}{rightRepr}";
 	}
+
+	public override string LaTeX() // TODO: modularize
+	{
+		string leftRepr, rightRepr;
+
+		if (Left.Equals(One)) return Right.LaTeX();
+		if (Right.Equals(One)) return Left.LaTeX();
+
+		if (Left.Equals(NegativeOne)) return $"-{Right.LaTeX()}";
+		if (Right.Equals(NegativeOne)) return $"-{Left.LaTeX()}";
+
+		if (Left is SumExpression) leftRepr = $"({Left.LaTeX()})"; // need to parenthesize lower-order operations (DifferenceExpression doesn't exist anymore, so we only need to account for this case)
+		else leftRepr = Left.LaTeX();
+
+		if (Right is SumExpression) rightRepr = $"({Right.LaTeX()})";
+		else rightRepr = Right.LaTeX();
+
+		if (Left is SumExpression or Variable) return $"{rightRepr} {leftRepr}";
+
+		return $"{leftRepr} {rightRepr}";
+	}
 }

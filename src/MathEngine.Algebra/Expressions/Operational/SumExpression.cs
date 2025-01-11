@@ -126,4 +126,13 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 
 		return $"{leftRepr}+{rightRepr}"; // no need for parens because addition is the lowest order operation
 	}
+
+	public override string LaTeX() // TODO: modularize
+	{
+		var (leftRepr, rightRepr) = (Left.LaTeX(), Right.LaTeX());
+
+		if (rightRepr.StartsWith('-')) return $"{leftRepr}-{rightRepr[1..]}";
+
+		return $"{leftRepr}+{rightRepr}"; // no need for parens because addition is the lowest order operation
+	}
 }

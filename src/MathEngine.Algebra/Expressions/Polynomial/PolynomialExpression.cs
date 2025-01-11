@@ -227,6 +227,11 @@ public class PolynomialExpression : Expression
 		return BaseNode.ToString();
 	}
 
+	public override string LaTeX()
+	{
+		return BaseNode.LaTeX();
+	}
+
 	public override bool Equals(Expression? other)
 	{
 		return other is PolynomialExpression otherPoly && otherPoly.BaseNode == BaseNode;

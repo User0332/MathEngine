@@ -36,4 +36,10 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 
 		return $"{leftRepr}/{rightRepr}";
 	}
+
+	public override string LaTeX()
+	{
+		return $"\\frac{{ {Left.LaTeX()} }}{{ {Right.LaTeX()} }}";
+	}
+
 }

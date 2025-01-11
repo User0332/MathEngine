@@ -72,16 +72,19 @@ public static class UserPolynomialExprTest
 			else expr = ProductExpression.FromFactors(factors).ToPolynomial();
 
 			Console.WriteLine($"Your Expression: {expr}");
+			Console.WriteLine($"LaTeX Form: {expr.LaTeX()}");
 
 			var normalized = expr.Normalize();
 
 			Console.WriteLine($"Normalized Form: {normalized}");
+			Console.WriteLine($"LaTeX Form: {normalized.LaTeX()}");
 
 			var eq = new PolynomialEquation(normalized, PolynomialExpression.ZeroExpr());
 
 			var roots = eq.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();
 
 			Console.WriteLine($"Roots: {string.Join(", ", roots)}");
+			Console.WriteLine($"Roots in LaTeX: {string.Join(", ", roots.Select(root => root.LaTeX()))}");
 
 
 			Console.Write("Enter to solve for the roots of another polynomial, anything else to exit");

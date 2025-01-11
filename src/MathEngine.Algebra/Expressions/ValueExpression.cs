@@ -23,6 +23,16 @@ public sealed class ValueExpression(Value inner) : Expression
 		return Inner.GetHashCode();
 	}
 
+	public override string LaTeX()
+	{
+		if (Inner is RationalValue ratVal && ratVal is not IntegerValue)
+		{
+			return $"\\frac{{ {ratVal.InnerValue.Numerator} }} {{ {ratVal.InnerValue.Denominator} }}";
+		}
+
+		return Inner.ToString();
+	}
+
 	public override string Repr()
 	{
 		return Inner.ToString();

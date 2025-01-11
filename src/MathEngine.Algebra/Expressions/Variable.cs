@@ -23,6 +23,14 @@ public sealed class Variable(char ident, string subscript = "") : Expression, IE
 
 		return Name.ToString();
 	}
+
+	public override string LaTeX()
+	{
+		if (Subscript != string.Empty) return $"{Name}_{Subscript}";
+
+		return Name.ToString();
+	}
+	
 	
 	public override int GetHashCode()
 	{

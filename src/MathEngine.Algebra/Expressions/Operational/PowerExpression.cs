@@ -76,4 +76,16 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 
 		return $"({baseRepr}^{expRepr})";
 	}
+
+	public override string LaTeX()
+	{
+		string baseRepr;
+
+		if (Base is Variable) baseRepr = Base.LaTeX();
+		else baseRepr = $"({Base.LaTeX()})";
+
+		if (SimplificationUtils.GetRationalValue(Exponent, out var expRat) && expRat == IntegerValue.One) return baseRepr;
+
+		return $"{baseRepr}^{{ {Exponent.LaTeX()} }}";
+	}
 }
