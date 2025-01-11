@@ -33,7 +33,7 @@ public class RationalValue(Rational val) : RealValue
 
 	public override string ToString()
 	{
-		return InnerValue.ToString();
+		return $"({InnerValue})";
 	}
 
 	public static RationalValue operator +(RationalValue a, RationalValue b)

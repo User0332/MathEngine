@@ -94,31 +94,24 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 	{
 		if (left is ProductExpression prodExprL && right is ProductExpression prodExprR)
 		{
-			if (prodExprR.Left.Equals(prodExprL.Left))
+			Expression likePart;
+
+			if (
+				(
+					((likePart = prodExprR.Left) == prodExprL.Left) ||
+					((likePart = prodExprR.Right) == prodExprL.Left) ||
+					((likePart = prodExprR.Left) == prodExprL.Right) ||
+					((likePart = prodExprR.Right) == prodExprL.Right)
+				)
+				)
 			{
-				var coeffOne = prodExprR.Right;
-				var coeffTwo = prodExprL.Right;
+				var coeffOne = prodExprR.Right == likePart ? prodExprR.Left : prodExprR.Right;
+				var coeffTwo = prodExprL.Right == likePart ? prodExprL.Left : prodExprL.Right;
 				var coeffSum = (coeffOne+coeffTwo).Simplify();
 
-				var combined = new ProductExpression(coeffSum, prodExprL.Left); // prodExpr*.Left is the "like" part of the like terms
+				if (coeffSum is SumExpression) return null;
 
-				if (coeffSum is not SumExpression) return combined.Simplify(); // do not simplify if the coeffSum is a SumExpression (this will cause infinite distributive property)
-
-				return combined;
-			}
-		
-			// TODO: maybe modularize this to minimize repeat code later
-			if (prodExprR.Right.Equals(prodExprL.Right))
-			{
-				var coeffOne = prodExprR.Left;
-				var coeffTwo = prodExprL.Left;
-				var coeffSum = (coeffOne+coeffTwo).Simplify();
-
-				var combined = new ProductExpression(coeffSum, prodExprL.Right); // prodExpr*.Right is the "like" part of the like terms
-
-				if (coeffSum is not SumExpression) return combined.Simplify(); // do not simplify if the coeffSum is a SumExpression (this will cause infinite distributive property)
-
-				return combined;
+				return new ProductExpression(coeffSum, likePart).Simplify();
 			}
 		}
 
