@@ -1,18 +1,42 @@
-using System.Linq.Expressions;
 using MathEngine.Algebra.Expressions;
+using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Expressions.Polynomial;
 
 namespace MathEngine.Algebra.Equations;
 
-public sealed class PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs)
-	: BaseEquation<PolynomialExpression>(lhs, rhs)
+public sealed class PolynomialEquation : BaseEquation<PolynomialExpression>
 {
-	/// <summary>
-	/// Constructs a new PolynomialEquation mathematically equivalent to the current instance where the left hand side is a polynomial and the right hand side is set to 0
-	/// </summary>
-	/// <returns>The new PolynomialEquation with the right hand side set to 0</returns>
-	public PolynomialEquation SetZeroSide()
+	public readonly bool IsNormalized;
+
+	public PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs) : this(lhs, rhs, false) { }
+
+	private PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs, bool isNormalized) : base(lhs, rhs)
 	{
-		return this;
+		IsNormalized = isNormalized;
+	}
+
+	/// <summary>
+	/// Returns a PolynomialEquation mathematically equivalent to the current instance where the left hand side is a normalized polynomial and the right hand side is a zero expression
+	/// </summary>
+	/// <returns>The PolynomialEquation with the right hand side set to 0</returns>
+	public PolynomialEquation Normalize() // buggy
+	{
+		if (IsNormalized) return this;
+
+		if (RightSide == PolynomialExpression.ZeroExpr())
+		{
+			if (LeftSide is NormalizedPolynomialExpression) return new(LeftSide, RightSide, true);
+
+			return new(LeftSide.Normalize(), RightSide, true);
+		}
+
+		var negRight = new ProductExpression(Expression.NegativeOne, RightSide.BaseNode); // NOTE: need to use BaseNode because no simplification logic exists for wrapped expressions like PolynomialExpression
+		var leftWithRightSubtracted = new SumExpression(LeftSide.BaseNode, negRight);
+
+		return new PolynomialEquation(
+			PolynomialExpression.From(leftWithRightSubtracted).Normalize(),
+			PolynomialExpression.ZeroExpr(),
+			true
+		);
 	}
 }

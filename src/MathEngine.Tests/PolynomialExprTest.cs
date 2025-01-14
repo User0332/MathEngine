@@ -56,6 +56,8 @@ public static class PolynomialExprTest
 
 		PolynomialEquation eq3 = new(thirdExpr, PolynomialExpression.ZeroExpr());
 
+		// PolynomialEquation::Normalize currently broken
+		
 		var solns3 = eq3.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();
 
 		foreach (var soln in solns3)

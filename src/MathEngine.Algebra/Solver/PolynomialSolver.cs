@@ -1,6 +1,7 @@
 using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Algebra.Expressions.Polynomial;
 using MathEngine.Values.Real.RationalValues;
 using Rationals;
 
@@ -15,7 +16,7 @@ public static class EquationSolver
 
 	static IEnumerable<Expression> SolveViaFormula(PolynomialEquation eq)
 	{
-		var expr = eq.SetZeroSide().LeftSide.Normalize(); // must find the roots of this
+		var expr = (NormalizedPolynomialExpression) eq.Normalize().LeftSide; // must find the roots of this
 
 		if (expr.Degree > 2) throw new UnsolvableEquationException("Equation solving for polynomials of degree 3 or greater is currently unsupported");
 		else if (expr.Degree == 2) // use quadratic formula & return factors

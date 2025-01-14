@@ -5,7 +5,7 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 	public readonly Expression Numerator = left;
 	public readonly Expression Denominator = right;
 
-	public override Expression Simplify()
+	public override Expression Simplify() // TODO: need to make undefined expression if denom == 0
 	{
 		var (simplNumerator, simplDenominator) = (Numerator.Simplify(), Denominator.Simplify());
 

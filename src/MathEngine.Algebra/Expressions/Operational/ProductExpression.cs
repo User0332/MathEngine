@@ -34,8 +34,14 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 	public override Expression Simplify() // TODO: simplification for rationals, etc. [see TODO file]
 	{
 		var (simplLeft, simplRight) = (Left.Simplify(), Right.Simplify());
+
+		var leftIsRational = SimplificationUtils.GetRationalValue(simplLeft, out var leftRat);
+		var rightIsRational = SimplificationUtils.GetRationalValue(simplRight, out var rightRat);
+
+		if (leftIsRational && leftRat.InnerValue == 0) return Zero; // TODO: need to check if other side is defined
+		if (rightIsRational && rightRat.InnerValue == 0) return  Zero;
 		
-		if (SimplificationUtils.GetRationalValue(simplLeft, out var leftRat) && SimplificationUtils.GetRationalValue(simplRight, out var rightRat))
+		if (leftIsRational && rightIsRational)
 		{
 			return SimplificationUtils.ToExpression(leftRat*rightRat);
 		}

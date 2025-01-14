@@ -44,8 +44,6 @@ public class PolynomialExpression : Expression
 	{
 		var simpl = BaseNode.Simplify();
 
-		Console.WriteLine($"simpl:{simpl}");
-
 		List<Expression> terms;
 
 		if (simpl is SumExpression sumExpr) terms = sumExpr.ToTerms();
