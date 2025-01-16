@@ -10,6 +10,7 @@ public abstract class Expression : IEquatable<Expression>
 	public static readonly Expression One = (ValueExpression) IntegerValue.One;
 	public static readonly Expression Zero = (ValueExpression) IntegerValue.Zero;
 	public static readonly Expression NegativeOne = (ValueExpression) IntegerValue.NegativeOne;
+	public static readonly Expression Undefined = new UndefinedExpression();
 
 	internal Expression() { } // only allow internal inheritance
 	
