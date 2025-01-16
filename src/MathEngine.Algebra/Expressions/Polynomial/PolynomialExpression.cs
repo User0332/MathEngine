@@ -92,6 +92,8 @@ public class PolynomialExpression : Expression
 		return new(normalizedTerms);
 	}
 
+	public override Expression Simplify() => BaseNode.Simplify();
+
 	static ProductExpression NormalizeSimplifiedTerm(Expression term)
 	{
 		if (term is ProductExpression prodExpr)
