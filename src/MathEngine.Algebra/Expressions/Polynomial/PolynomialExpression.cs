@@ -23,7 +23,16 @@ public class PolynomialExpression : Expression
 		return baseTerm as PolynomialExpression ?? new(baseTerm);
 	}
 
-	public static PolynomialExpression ZeroExpr(Variable var) => new(new ProductExpression((ValueExpression) 0, var));
+	public static PolynomialExpression ZeroExpr(Variable var) => new( // returns in normalized form
+		new SumExpression(
+			new ProductExpression(
+				Zero,
+				new PowerExpression(var, One)
+			),
+			Zero // constant term of Zero
+		)
+	);
+
 	public static PolynomialExpression ZeroExpr() => ZeroExpr(Variable.X);
 
 	/// <summary>

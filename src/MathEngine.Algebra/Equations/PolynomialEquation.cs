@@ -7,23 +7,27 @@ namespace MathEngine.Algebra.Equations;
 public sealed class PolynomialEquation : BaseEquation<PolynomialExpression>
 {
 	public readonly bool IsNormalized;
+	public readonly int Degree;
 
 	public PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs) : this(lhs, rhs, false) { }
 
 	private PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs, bool isNormalized) : base(lhs, rhs)
 	{
 		IsNormalized = isNormalized;
+		Degree = Math.Max(lhs.Degree, rhs.Degree);
+
+		if (lhs.Variable != rhs.Variable) throw new ArgumentException("A PolynomialEquation instance may consist of only one variable!");
 	}
 
 	/// <summary>
-	/// Returns a PolynomialEquation mathematically equivalent to the current instance where the left hand side is a normalized polynomial and the right hand side is a zero expression
+	/// Returns a <see cref="PolynomialEquation"/> mathematically equivalent to the current instance where the left hand side is a <see cref="NormalizedPolynomialExpression"/> and the right hand side is a zero expression
 	/// </summary>
 	/// <returns>The PolynomialEquation with the right hand side set to 0</returns>
-	public PolynomialEquation Normalize() // buggy
+	public PolynomialEquation Normalize()
 	{
 		if (IsNormalized) return this;
 
-		if (RightSide == PolynomialExpression.ZeroExpr())
+		if (RightSide.Normalize() == PolynomialExpression.ZeroExpr(RightSide.Variable))
 		{
 			if (LeftSide is NormalizedPolynomialExpression) return new(LeftSide, RightSide, true);
 

@@ -58,10 +58,19 @@ public static class EquationSolver
 		}
 	}
 
-	public static IEnumerable<Expression> Solve(this PolynomialEquation eq, PolynomialSolvingStrategy strategy = PolynomialSolvingStrategy.UseFormula)
+	static IEnumerable<Expression> SolveViaFactoring(PolynomialEquation eq)
+	{
+		if (eq.Degree <= 2) return SolveViaFormula(eq); 
+		
+		var expr = (NormalizedPolynomialExpression) eq.Normalize().LeftSide;
+
+		return [];
+	}
+
+	public static IEnumerable<Expression> Solve(this PolynomialEquation eq, PolynomialSolvingStrategy strategy = PolynomialSolvingStrategy.All)
 	{
 		if ((strategy & PolynomialSolvingStrategy.UseFormula) != 0) return SolveViaFormula(eq);
-		if ((strategy & PolynomialSolvingStrategy.Factor) != 0) throw new NotImplementedException("solving via factoring and zero product property is currently unsupported");
+		if ((strategy & PolynomialSolvingStrategy.Factor) != 0) return SolveViaFactoring(eq);
 		
 		throw new ArgumentException("Invalid solving strategy");
 	}
@@ -72,5 +81,6 @@ public enum PolynomialSolvingStrategy
 {
 	UseFormula = 1 << 0,
 	Factor = 1 << 1,
-	Substitute = 1 << 2
+	Substitute = 1 << 2,
+	All = UseFormula | Factor | Substitute
 }

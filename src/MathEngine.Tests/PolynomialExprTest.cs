@@ -47,7 +47,6 @@ public static class PolynomialExprTest
 			Console.WriteLine(soln);
 		}
 
-
 		var thirdExpr = PolynomialExpression.From(
 			(x^2) + 2*x + 3*x
 		);
