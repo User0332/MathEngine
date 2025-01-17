@@ -92,6 +92,11 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 	// TODO: right now, this only searches for ProductExpressions, but this won't work for terms where the coefficient is 1 and there is no ProductExpression
 	static Expression? InternalTryCombineLikeTerms(Expression left, Expression right) // combine like terms, do not simplify the returned ProductExpression so distributive property and combining like terms do not get infinitely recursively applied
 	{
+		if (SimplificationUtils.GetRationalValue(left, out var leftRat) && SimplificationUtils.GetRationalValue(right, out var rightRat))
+		{
+			return SimplificationUtils.ToExpression(leftRat+rightRat);
+		}
+
 		if (left is ProductExpression prodExprL && right is ProductExpression prodExprR)
 		{
 			Expression likePart;

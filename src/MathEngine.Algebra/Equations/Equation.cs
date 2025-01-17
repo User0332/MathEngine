@@ -6,4 +6,6 @@ public class Equation(Expression lhs, Expression rhs)
 {
 	public readonly Expression LeftSide = lhs;
 	public readonly Expression RightSide = rhs;
+
+	public PolynomialEquation ToPolynomial() => new(LeftSide.ToPolynomial(), RightSide.ToPolynomial());
 }

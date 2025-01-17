@@ -1,4 +1,7 @@
 using MathEngine.Algebra;
+using MathEngine.Algebra.Equations;
+using MathEngine.Algebra.Expressions.Polynomial;
+using MathEngine.Algebra.Solver;
 
 namespace MathEngine.Tests;
 
@@ -8,20 +11,13 @@ public static class PolynomialEquationTest
 	{
 		var x = Variable.X;
 
-		// PolynomialEquation eq = new(
-		// 	PolynomialExpression.From(
+		var eq = ((x^2)+5*x+6).SetEqualTo(2*x+8).ToPolynomial();
 
-		// 	),
-		// 	PolynomialExpression.From(
+		var solns = eq.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();
 
-		// 	)
-		// );
-
-		// var solns = eq.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();
-
-		// foreach (var soln in solns)
-		// {
-		// 	Console.WriteLine(soln);
-		// }
+		foreach (var soln in solns)
+		{
+			Console.WriteLine(soln.LaTeX());
+		}
 	}
 }

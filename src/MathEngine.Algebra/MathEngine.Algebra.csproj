@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
-		<ProjectReference Include="..\MathEngine.Values\MathEngine.Values.csproj" />
+		<!-- <ProjectReference Include="..\MathEngine.Values\MathEngine.Values.csproj" /> -->
+		<PackageReference Include="MathEngine.Values" Version="0.1.0" />
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -9,7 +10,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
 
-		<Version>2.0.0</Version>
+		<Version>2.1.0</Version>
 		<Authors>Carl Furtado</Authors>
 		<PackageId>MathEngine.Algebra</PackageId>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

@@ -1,3 +1,4 @@
+using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Expressions.Polynomial;
 using MathEngine.Values.Real.RationalValues;
@@ -49,6 +50,8 @@ public abstract class Expression : IEquatable<Expression>
 	{
 		return Equals(obj as Expression);
 	}
+
+	public Equation SetEqualTo(Expression other) => new(this, other);
 	
 	public static bool operator ==(Expression self, Expression other) => self.Equals(other);
 	public static bool operator !=(Expression self, Expression other) => !self.Equals(other);

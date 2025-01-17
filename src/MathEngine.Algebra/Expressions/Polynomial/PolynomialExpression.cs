@@ -52,6 +52,8 @@ public class PolynomialExpression : Expression
 	{
 		var simpl = BaseNode.Simplify();
 
+		Console.WriteLine(simpl);
+
 		if (Zero.Equals(simpl)) return ZeroExpr(Variable);
 
 		List<Expression> terms;

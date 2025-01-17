@@ -12,6 +12,9 @@ public sealed class PolynomialEquation : Equation
 	public readonly bool IsNormalized;
 	public readonly int Degree;
 
+	public PolynomialEquation(Expression lhs, Expression rhs)
+		: this(lhs.ToPolynomial(), rhs.ToPolynomial()) { }
+
 	public PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs) : this(lhs, rhs, false) { }
 
 	private PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs, bool isNormalized) : base(lhs, rhs)
