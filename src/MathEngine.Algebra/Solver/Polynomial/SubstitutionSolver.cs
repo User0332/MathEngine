@@ -2,7 +2,6 @@ using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Expressions.Polynomial;
-using Rationals;
 
 namespace MathEngine.Algebra.Solver.Polynomial;
 

@@ -20,8 +20,6 @@ public static partial class PolynomialEquationSolver
 		while (rest.Degree > 2)
 		{
 			var terms = rest.NormalizedTerms.Select(term => term.Simplify()).Where(term => term != Expression.Zero);
-
-			Console.WriteLine(terms);
 		}
 
 		return accumRoots.Concat(

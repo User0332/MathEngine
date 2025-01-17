@@ -1,5 +1,6 @@
 using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
+using MathEngine.Algebra.Expressions.Polynomial;
 using MathEngine.Algebra.Solver.Polynomial;
 
 namespace MathEngine.Tests;
@@ -10,9 +11,9 @@ public static class HighDegPolyTest
 	{
 		var x = Variable.X;
 
-		var eq = ((x^3)+5*x+6).SetEqualTo(Expression.Zero).ToPolynomial();
+		var eq = ((x^4)+(x^2)+4).SetEqualTo(PolynomialExpression.ZeroExpr()).ToPolynomial();
 
-		var solns = eq.Solve(strategy: PolynomialSolvingStrategy.Factor).Select(soln => soln.Simplify());
+		var solns = eq.Solve(strategy: PolynomialSolvingStrategy.Substitute | PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify());
 
 		foreach (var soln in solns)
 		{

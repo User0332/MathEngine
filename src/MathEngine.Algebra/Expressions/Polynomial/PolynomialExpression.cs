@@ -59,8 +59,6 @@ public class PolynomialExpression : Expression
 	{
 		var simpl = BaseNode.Simplify();
 
-		Console.WriteLine(simpl);
-
 		if (Zero.Equals(simpl)) return ZeroExpr(Variable);
 
 		List<Expression> terms;
@@ -74,7 +72,7 @@ public class PolynomialExpression : Expression
 		
 		// fill with constant term first or zero for the constant term if it doesn't exist
 		normalizedTerms[^1] = new ProductExpression(
-			terms.FirstOrDefault(term => term.ContainsVariable(), (ValueExpression) 0),
+			terms.FirstOrDefault(term => !term.ContainsVariable(), (ValueExpression) 0),
 			new PowerExpression(
 				Variable,
 				Zero
@@ -84,7 +82,7 @@ public class PolynomialExpression : Expression
 
 		foreach (var term in terms)
 		{
-			if (ReferenceEquals(term, normalizedTerms[^1])) continue; // skip constant term
+			if (ReferenceEquals(term, normalizedTerms[^1].Left)) continue; // skip constant term
 
 			var degree = DegreeOf(term);
 
@@ -99,7 +97,7 @@ public class PolynomialExpression : Expression
 				normalizedTerms[i] = new ProductExpression(
 					(ValueExpression) 0,
 					new PowerExpression(
-						Variable, (ValueExpression) Degree-i
+						Variable, (ValueExpression) (Degree-i)
 					)	
 				);
 			}
@@ -235,7 +233,7 @@ public class PolynomialExpression : Expression
 		if (
 			powExpr.Exponent is not ValueExpression valExpr ||
 			valExpr.Inner is not IntegerValue integerValue ||
-			integerValue.InnerValue <= 0
+			integerValue.InnerValue < 0
 		) throw new ArgumentException("Variable raised to a non-natural power in polynomial expression");
 
 		if (innerVar != usingVar && usingVar is not null) throw new ArgumentException("Multiple variables used in polynomial expression");
