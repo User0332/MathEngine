@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
+using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Algebra.Solver.Polynomial;
 using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Algebra.Expressions.Polynomial;
@@ -28,10 +30,15 @@ public class PolynomialExpression : Expression
 			Zero,
 			new PowerExpression(var, One)
 		),
-		Zero // constant term of Zero
+		new ProductExpression(
+			Zero,
+			new PowerExpression(var, Zero)
+		) // constant term of Zero
 	]);
 
 	public static PolynomialExpression ZeroExpr() => ZeroExpr(Variable.X);
+
+	public IEnumerable<Expression> Roots(PolynomialSolvingStrategy strat = PolynomialSolvingStrategy.All) => new PolynomialEquation(this, ZeroExpr(Variable)).Solve(strat);
 
 	/// <summary>
 	/// Converts the PolynomialExpression to normalized form where the terms are arranged like so for a given polynomial:
@@ -63,10 +70,16 @@ public class PolynomialExpression : Expression
 
 		// sort terms by degree, add missing terms, and add missing (1) coefficients
 
-		var normalizedTerms = new Expression[Degree+1];
+		var normalizedTerms = new ProductExpression[Degree+1];
 		
 		// fill with constant term first or zero for the constant term if it doesn't exist
-		normalizedTerms[^1] = terms.FirstOrDefault(term => !term.ContainsVariable(), (ValueExpression) 0);
+		normalizedTerms[^1] = new ProductExpression(
+			terms.FirstOrDefault(term => term.ContainsVariable(), (ValueExpression) 0),
+			new PowerExpression(
+				Variable,
+				Zero
+			)
+		);
 
 
 		foreach (var term in terms)
@@ -118,9 +131,11 @@ public class PolynomialExpression : Expression
 		return NormalizeSimplifiedTerm(new ProductExpression((ValueExpression) 1, term)); // make sure there is a product of coefficient and variable-based expression
 	}
 
-	public static int DegreeOf(Expression expr)
+	public static int DegreeOf(Expression expr)// TODO: maybe change to upgrade performance?
 	{
-		return From(expr).Degree; // TODO: maybe change to upgrade performance?
+		if (!expr.ContainsVariable()) return 0;
+
+		return From(expr).Degree;
 	}
 
 	static void CollectTerms(Expression expr, List<Expression> terms)

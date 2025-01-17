@@ -8,43 +8,26 @@ namespace MathEngine.Algebra.Solver.Polynomial;
 
 public static partial class PolynomialEquationSolver
 {
-	static IEnumerable<Expression> SolveViaFormula(PolynomialEquation eq)
+	static IEnumerable<Expression> SolveViaFactoring(PolynomialEquation eq)
 	{
-		var expr = (NormalizedPolynomialExpression) eq.Normalize().LeftSide; // must find the roots of this
+		if (eq.Degree <= 2) return SolveViaFormula(eq); 
+		
+		var expr = (NormalizedPolynomialExpression) eq.LeftSide; // need to find roots of expr
 
-		if (expr.Degree == 2) // use quadratic formula & return factors
+		var rest = expr;
+		List<Expression> accumRoots = [];
+
+		while (rest.Degree > 2)
 		{
-			// in normalized simplified form, we can assume that the terms follow the normalized pattern
+			var terms = rest.NormalizedTerms.Select(term => term.Simplify()).Where(term => term != Expression.Zero);
 
-			ProductExpression quadraticTerm = (expr.GetTermOfDegree(2) as ProductExpression)!;
-			ProductExpression linearTerm = (expr.GetTermOfDegree(1) as ProductExpression)!;
-			Expression constantTerm = expr.GetTermOfDegree(0);
-			
-			var a = quadraticTerm.Left;
-			var b = linearTerm.Left;
-			var c = constantTerm;
-
-			var discriminant = (b^2)-4*a*c;
-
-			var denominator = 2*a;
-
-			var factorOne = (-b + (discriminant^((Rational) 1/2)))/denominator;
-			var factorTwo = (-b - (discriminant^((Rational) 1/2)))/denominator;
-
-			return [factorOne, factorTwo];
+			Console.WriteLine(terms);
 		}
-		else if (expr.Degree == 1) // return the root of ax+b=0
-		{
-			ProductExpression linearTerm = (expr.GetTermOfDegree(1) as ProductExpression)!;
-			Expression constantTerm = expr.GetTermOfDegree(0);
 
-			var a = linearTerm.Left;
-			var b = constantTerm;
-
-			var root = -b/a;
-
-			return [root];
-		}
-		else throw new NotImplementedException($"MathEngine.Algebra does not support a formula for a polynomial of degree {expr.Degree}");
+		return accumRoots.Concat(
+			SolveViaFormula(
+				new PolynomialEquation(rest, PolynomialExpression.ZeroExpr(rest.Variable))
+			)
+		);
 	}
 }

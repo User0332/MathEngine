@@ -1,20 +1,38 @@
 using System.Collections.Immutable;
 using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Algebra.Expressions.Polynomial;
 
 public sealed class NormalizedPolynomialExpression : PolynomialExpression
 {
-	public readonly ImmutableArray<Expression> NormalizedTerms;
+	public readonly ImmutableArray<ProductExpression> NormalizedTerms;
 
-	internal NormalizedPolynomialExpression(Expression[] terms) : base(SumExpression.FromTerms(terms))
+	internal NormalizedPolynomialExpression(ProductExpression[] terms) : base(SumExpression.FromTerms(terms))
 	{
 		NormalizedTerms = ImmutableArray.Create(terms);
 	}
 
-	public Expression GetTermOfDegree(int degree)
+	public ProductExpression GetTermOfDegree(int degree)
 	{
 		return NormalizedTerms[^(degree+1)];
+	}
+
+	/// <summary>
+	/// NOTE: This function must ONLY be called with a term from a <see cref="NormalizedPolynomialExpression"/>
+	/// </summary>
+	/// <param name="term"></param>
+	/// <returns></returns>
+
+	public static int DegreeOfNormalizedTerm(ProductExpression term)
+	{
+		return (int) (
+			(IntegerValue) (
+				(ValueExpression) (
+					(PowerExpression) term.Right
+				).Right
+			).Inner
+		).InnerValue;
 	}
 
 	public static new NormalizedPolynomialExpression From(Expression expr)
