@@ -18,8 +18,8 @@ public abstract class OperationExpression : Expression
 
 	internal OperationExpression(Expression left, Expression right, string op)
 	{
-		Left = left.Simplify();
-		Right = right.Simplify();
+		Left = left; // do not simplify on instantiation, this messes with some functionality
+		Right = right;
 		Operator = op;
 	}
 

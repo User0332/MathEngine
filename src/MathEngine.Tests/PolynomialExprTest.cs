@@ -23,6 +23,8 @@ public static class PolynomialExprTest
 		Console.WriteLine(normalized);
 		Console.WriteLine(normalized.Repr());
 
+		Console.WriteLine(PolynomialExpression.ZeroExpr());
+
 		PolynomialEquation eq = new(expr, PolynomialExpression.ZeroExpr()); // TODO: actually implement SetZeroSide
 
 		var solns = eq.Solve(strategy: PolynomialSolvingStrategy.UseFormula).Select(soln => soln.Simplify()).Distinct();

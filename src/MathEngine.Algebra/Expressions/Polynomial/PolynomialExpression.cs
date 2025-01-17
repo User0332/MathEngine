@@ -23,15 +23,13 @@ public class PolynomialExpression : Expression
 		return baseTerm as PolynomialExpression ?? new(baseTerm);
 	}
 
-	public static PolynomialExpression ZeroExpr(Variable var) => new( // returns in normalized form
-		new SumExpression(
-			new ProductExpression(
-				Zero,
-				new PowerExpression(var, One)
-			),
-			Zero // constant term of Zero
-		)
-	);
+	public static NormalizedPolynomialExpression ZeroExpr(Variable var) => new([
+		new ProductExpression(
+			Zero,
+			new PowerExpression(var, One)
+		),
+		Zero // constant term of Zero
+	]);
 
 	public static PolynomialExpression ZeroExpr() => ZeroExpr(Variable.X);
 
@@ -47,11 +45,14 @@ public class PolynomialExpression : Expression
 	/// 	)
 	/// )</code>
 	/// <para>Any terms whose coefficient (a, b, c, ...) is zero are still included in the normalized polynomial</para>
+	/// <para>The normalized form of any polynomial whose value is equivalent to 0 is the same as the return value of <see cref="ZeroExpr(Variable)"/> </para>
 	/// </summary>
 	/// <returns>A mathematically equivalent PolynomialExpression in normalized form</returns>
 	public virtual NormalizedPolynomialExpression Normalize()
 	{
 		var simpl = BaseNode.Simplify();
+
+		if (Zero.Equals(simpl)) return ZeroExpr(Variable);
 
 		List<Expression> terms;
 
@@ -156,7 +157,7 @@ public class PolynomialExpression : Expression
 	/// <param name="baseExpr"></param>
 	/// <returns>Variable used in expression and polynomial degree</returns>
 	(Variable Var, int Degree) ValidateNode(Expression baseExpr)
-	{
+	{		
 		(Variable? usingVar, int deg) = ValidateNodeInternal(baseExpr, 0, null);
 
 		if (usingVar is null) throw new ArgumentException("No variable used in polynomial expression!");

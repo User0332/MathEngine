@@ -4,8 +4,11 @@ using MathEngine.Algebra.Expressions.Polynomial;
 
 namespace MathEngine.Algebra.Equations;
 
-public sealed class PolynomialEquation : BaseEquation<PolynomialExpression>
+public sealed class PolynomialEquation : Equation
 {
+	public readonly new PolynomialExpression LeftSide;
+	public readonly new PolynomialExpression RightSide;
+
 	public readonly bool IsNormalized;
 	public readonly int Degree;
 
@@ -13,6 +16,9 @@ public sealed class PolynomialEquation : BaseEquation<PolynomialExpression>
 
 	private PolynomialEquation(PolynomialExpression lhs, PolynomialExpression rhs, bool isNormalized) : base(lhs, rhs)
 	{
+		LeftSide = lhs;
+		RightSide = rhs;
+
 		IsNormalized = isNormalized;
 		Degree = Math.Max(lhs.Degree, rhs.Degree);
 
