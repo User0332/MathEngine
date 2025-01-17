@@ -4,6 +4,7 @@ using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Expressions.Polynomial;
 using MathEngine.Algebra.Solver;
+using MathEngine.Algebra.Solver.Polynomial;
 
 namespace MathEngine.Tests;
 
