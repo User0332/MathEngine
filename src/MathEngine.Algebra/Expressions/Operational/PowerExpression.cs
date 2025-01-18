@@ -33,7 +33,7 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 		return new PowerExpression(simplBase, simplExp);
 	}
 
-	public static BigInteger? ExactNthRoot(BigInteger value, int n)
+	static BigInteger? ExactNthRoot(BigInteger value, int n)
 	{
 		if (n <= 0) throw new ArgumentOutOfRangeException(nameof(n), "Root must be a positive integer.");
 		

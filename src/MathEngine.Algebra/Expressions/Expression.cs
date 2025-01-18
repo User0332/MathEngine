@@ -8,10 +8,10 @@ namespace MathEngine.Algebra.Expressions;
 
 public abstract class Expression : IEquatable<Expression>
 {
-	public static readonly Expression One = (ValueExpression) IntegerValue.One;
-	public static readonly Expression Zero = (ValueExpression) IntegerValue.Zero;
-	public static readonly Expression NegativeOne = (ValueExpression) IntegerValue.NegativeOne;
-	public static readonly Expression OneHalf = (ValueExpression) ((Rational) 1/2);
+	public static readonly ValueExpression One = (ValueExpression) IntegerValue.One;
+	public static readonly ValueExpression Zero = (ValueExpression) IntegerValue.Zero;
+	public static readonly ValueExpression NegativeOne = (ValueExpression) IntegerValue.NegativeOne;
+	public static readonly ValueExpression OneHalf = (ValueExpression) ((Rational) 1/2);
 	public static readonly Expression Undefined = new UndefinedExpression();
 
 	internal Expression() { } // only allow internal inheritance
@@ -20,6 +20,11 @@ public abstract class Expression : IEquatable<Expression>
 	public abstract string LaTeX();
 	public abstract string Repr();
 	public virtual Expression Simplify() => this;
+
+	public PowerExpression Square() => new PowerExpression(this, (ValueExpression) 2);
+	public PowerExpression Cube() => new PowerExpression(this, (ValueExpression) 3);
+	public PowerExpression Sqrt() => new PowerExpression(this, (ValueExpression) ((Rational) 1/2));
+	public PowerExpression Cbrt() => new PowerExpression(this, (ValueExpression) ((Rational) 1/3));
 
 	public PolynomialExpression ToPolynomial()
 	{
