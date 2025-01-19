@@ -35,7 +35,7 @@ public static partial class PolynomialEquationSolver
 		}
 		else if (expr.Degree == 1) // return the root of ax+b=0
 		{
-			ProductExpression linearTerm = (expr.GetTermOfDegree(1) as ProductExpression)!;
+			ProductExpression linearTerm = expr.GetTermOfDegree(1);
 			Expression constantTerm = expr.GetTermOfDegree(0);
 
 			var a = linearTerm.Left;

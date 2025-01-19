@@ -1,5 +1,4 @@
 using MathEngine.Algebra;
-using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Polynomial;
 using MathEngine.Algebra.Solver.Polynomial;
 

@@ -26,14 +26,10 @@ public class PolynomialExpression : Expression
 	}
 
 	public static NormalizedPolynomialExpression ZeroExpr(Variable var) => new([
-		new ProductExpression(
-			Zero,
-			new PowerExpression(var, One)
-		),
-		new ProductExpression(
+		new ProductExpression( // constant term of Zero
 			Zero,
 			new PowerExpression(var, Zero)
-		) // constant term of Zero
+		)
 	]);
 
 	public static PolynomialExpression ZeroExpr() => ZeroExpr(Variable.X);

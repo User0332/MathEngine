@@ -11,6 +11,7 @@ public sealed class PolynomialEquation : Equation
 
 	public readonly bool IsNormalized;
 	public readonly int Degree;
+	public readonly Variable Variable;
 
 	public PolynomialEquation(Expression lhs, Expression rhs)
 		: this(lhs.ToPolynomial(), rhs.ToPolynomial()) { }
@@ -24,6 +25,8 @@ public sealed class PolynomialEquation : Equation
 
 		IsNormalized = isNormalized;
 		Degree = Math.Max(lhs.Degree, rhs.Degree);
+
+		Variable = lhs.Variable;
 
 		if (lhs.Variable != rhs.Variable) throw new ArgumentException("A PolynomialEquation instance may consist of only one variable!");
 	}
