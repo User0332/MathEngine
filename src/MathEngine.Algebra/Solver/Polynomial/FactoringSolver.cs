@@ -51,14 +51,17 @@ public static partial class PolynomialEquationSolver
 
 		if (rest.Degree > 2)
 		{
-			terms = rest.NormalizedTerms.Where(term => term.Left != Expression.Zero);
+			ProductExpression[] termsArr = [.. rest.NormalizedTerms.Where(term => term.Left != Expression.Zero)]; // these should be ordered greatest -> least degree
 
 			// second method: factor by grouping
 
 			// cannot factor by grouping with an odd number of terms
-			if (terms.Count() % 2 != 0) throw new UnsolvableEquationException("Unable to factor the polynomial");
-		
-			// TODO: impl (use algebra to determine techniques for determining whether or not factoring by grouping can be used by examining coefficients)
+			if (termsArr.Length % 2 != 0) throw new UnsolvableEquationException("Unable to factor the polynomial");
+
+			// TODO: need to account for the situation of x^n + c = 0 (two-termed), this case necessitates a MathEngine.Algebra-based way of representing kth nth root (because this is only currently possible using DeMoivre's theorem, which requires trig functions)
+
+			// we must now iterate through each pair of terms and factor out the GCF, attempting to reach a common factor. We can break the loop as soon as one of the factors diverges from the pattern of previously logged common factors
+			// TODO: impl
 		}
 		
 		return accumRoots.Concat(
