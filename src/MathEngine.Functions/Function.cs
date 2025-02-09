@@ -1,21 +1,10 @@
-﻿using MathEngine.Algebra.Expressions;
+﻿using ExtendedNumerics;
+using MathEngine.Algebra.Expressions;
 
 namespace MathEngine.Functions;
 
 public abstract class Function
 {
-	public enum CalculationPrecision
-	{
-		Unknown,
-		Exact,
-		Approximate
-	}
-
-	public readonly bool HasExpressibleInverse = false;
-	public readonly Function Inverse = null!;
-
-	public virtual CalculationPrecision PrecisionAtPoint(Expression x) => CalculationPrecision.Unknown; 
-	public abstract Expression ApplyExact(Expression x);
-	public abstract Expression ApplyApproximate(Expression x);
-
+	public abstract Expression ValueAt(Expression[] args);
+	public abstract BigComplex Approximate(Expression[] args);
 }

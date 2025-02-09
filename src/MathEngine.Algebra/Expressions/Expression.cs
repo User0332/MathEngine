@@ -14,8 +14,6 @@ public abstract class Expression : IEquatable<Expression>
 	public static readonly ValueExpression OneHalf = (ValueExpression) ((Rational) 1/2);
 	public static readonly Expression Undefined = new UndefinedExpression();
 
-	internal Expression() { } // only allow internal inheritance
-	
 	public abstract override string ToString();
 	public abstract string LaTeX();
 	public abstract string Repr();
