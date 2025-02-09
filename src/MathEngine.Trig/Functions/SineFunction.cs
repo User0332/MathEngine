@@ -53,13 +53,13 @@ internal sealed class SineFunction : BaseTrigFunction
 
 		Rational frac = (ratVal.InnerValue.WholePart % 2) + ratVal.InnerValue.FractionPart; // mod 2 pi since sine is periodic
 
-		if (ratVal.InnerValue == 1) // sin(pi) == 0
+		if (frac == 1 || frac == 0) // sin(pi) == 0, sin(0) == 0
 		{
 			y = Expression.Zero;
 			return true;
 		}
 
-		var (num, den) = (ratVal.InnerValue.Numerator, ratVal.InnerValue.Denominator);
+		var (num, den) = (frac.Numerator, frac.Denominator);
 
 		// first match our pi/6, pi/4, pi/3 and pi/2 families
 
