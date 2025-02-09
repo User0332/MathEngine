@@ -5,7 +5,7 @@ namespace MathEngine.Functions;
 
 public abstract class SingleVariableFunction : Function
 {
-	public override Expression ValueAt(Expression[] args)
+	public override sealed Expression ValueAt(Expression[] args)
 	{
 		if (args.Length != 1) throw new ArgumentException("Single variable function expects one argument");
 
@@ -13,7 +13,7 @@ public abstract class SingleVariableFunction : Function
 	}
 
 	
-	public override BigComplex Approximate(BigComplex[] args)
+	public override sealed BigComplex Approximate(BigComplex[] args)
 	{
 		if (args.Length != 1) throw new ArgumentException("Single variable function expects one argument");
 
