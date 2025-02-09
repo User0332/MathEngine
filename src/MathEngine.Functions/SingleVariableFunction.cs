@@ -13,7 +13,7 @@ public abstract class SingleVariableFunction : Function
 	}
 
 	
-	public override BigComplex Approximate(Expression[] args)
+	public override BigComplex Approximate(BigComplex[] args)
 	{
 		if (args.Length != 1) throw new ArgumentException("Single variable function expects one argument");
 
@@ -22,5 +22,5 @@ public abstract class SingleVariableFunction : Function
 
 
 	public abstract Expression ValueAt(Expression args);
-	public abstract BigComplex Approximate(Expression args);
+	public abstract BigComplex Approximate(BigComplex args);
 }

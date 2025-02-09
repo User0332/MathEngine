@@ -1,3 +1,4 @@
+using ExtendedNumerics;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Values;
@@ -11,7 +12,7 @@ internal sealed class SineFunction : BaseTrigFunction
 {
 	internal SineFunction() {}
 	
-	public override Expression ApplyApproximate(Expression x) // todo: use power series
+	public override BigComplex Approximate(BigComplex x) // todo: use power series
 	{
 		throw new NotImplementedException();
 	}
