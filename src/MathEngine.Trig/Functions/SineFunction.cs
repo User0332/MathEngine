@@ -1,6 +1,7 @@
 using ExtendedNumerics;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Functions;
 using MathEngine.Values;
 using MathEngine.Values.Real.IrrationalValues;
 using MathEngine.Values.Real.RationalValues;
@@ -10,11 +11,11 @@ namespace MathEngine.Trig.Functions;
 
 internal sealed class SineFunction : BaseTrigFunction
 {
-	internal SineFunction() {}
+	internal SineFunction() : base("sin") {}
 	
 	public override BigComplex Approximate(BigComplex x) // todo: use power series
 	{
-		throw new NotImplementedException();
+		return BigComplex.Sin(x);
 	}
 
 	public override bool TryCalculateExactValue(Expression x, out Expression y)
@@ -60,6 +61,46 @@ internal sealed class SineFunction : BaseTrigFunction
 
 		var (num, den) = (ratVal.InnerValue.Numerator, ratVal.InnerValue.Denominator);
 
-		// first match our pi/6, pi/4, pi/3 and pi/2 families, then we will move to angle addition formulas and other identities if nothing matches
+		// first match our pi/6, pi/4, pi/3 and pi/2 families
+
+		if (den == 6 && (num == 1 || num == 5))
+		{
+			y = (ValueExpression) 0.5;
+			return true;
+		}
+
+		if (den == 4 && (num == 1 || num == 3))
+		{
+			y = ((ValueExpression) 2).Sqrt()/2;
+			return true;
+		}
+
+		if (den == 3 && (num == 1 || num == 2))
+		{
+			y = ((ValueExpression) 3).Sqrt()/2;
+			return true;
+		}
+
+		if (den == 6 && (num == 7 || num == 11))
+		{
+			y = (ValueExpression) (-0.5);
+			return true;
+		}
+		
+		if (den == 4 && (num == 5 || num == 7))
+		{
+			y = ((ValueExpression) (-2)).Sqrt()/2;
+			return true;
+		}
+
+		if (den == 3 && (num == 4 || num == 5))
+		{
+			y = -((ValueExpression) 3).Sqrt()/2;
+			return true;
+		}
+
+		// now try to use angle addition identities
+
+		return false;
 	}
 }

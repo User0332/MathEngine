@@ -5,7 +5,10 @@ namespace MathEngine.Trig.Functions;
 
 internal abstract class BaseTrigFunction : SingleVariableFunction
 {
-	readonly Dictionary<Expression, Expression> exactValueCache = [];
+	public readonly string Name;
+	readonly Dictionary<Expression, Expression> _exactValueCache = [];
+
+	internal BaseTrigFunction(string name) { Name = name; }
 
 	public abstract bool TryCalculateExactValue(Expression x, out Expression y);
 
@@ -14,13 +17,13 @@ internal abstract class BaseTrigFunction : SingleVariableFunction
 	{
 		x = x.Simplify();
 
-		if (exactValueCache.TryGetValue(x, out var value)) return value;
+		if (_exactValueCache.TryGetValue(x, out var value)) return value;
 
 		if (TryCalculateExactValue(x, out var y))
 		{
-			return exactValueCache[x] = y;
+			return _exactValueCache[x] = y;
 		}
-		
-		throw new ArgumentException($"Cannot calculate exact value of trignometric function at point {x}");
+
+		return new FunctionExpression(Name, [ x ]);
 	}
 }
