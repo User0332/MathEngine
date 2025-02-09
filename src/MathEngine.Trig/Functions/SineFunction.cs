@@ -63,6 +63,21 @@ internal sealed class SineFunction : BaseTrigFunction
 
 		// first match our pi/6, pi/4, pi/3 and pi/2 families
 
+		if (den == 2)
+		{
+			if (num == 1)
+			{
+				y = Expression.One;
+				return true;
+			}
+
+			if (num == 3)
+			{
+				y = Expression.NegativeOne;
+				return true;
+			}
+		}
+
 		if (den == 6 && (num == 1 || num == 5))
 		{
 			y = (ValueExpression) 0.5;

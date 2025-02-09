@@ -1,6 +1,7 @@
 using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Expressions.Polynomial;
+using MathEngine.Values.Real.IrrationalValues;
 using MathEngine.Values.Real.RationalValues;
 using Rationals;
 
@@ -12,6 +13,8 @@ public abstract class Expression : IEquatable<Expression>
 	public static readonly ValueExpression Zero = (ValueExpression) IntegerValue.Zero;
 	public static readonly ValueExpression NegativeOne = (ValueExpression) IntegerValue.NegativeOne;
 	public static readonly ValueExpression OneHalf = (ValueExpression) ((Rational) 1/2);
+	public static readonly ValueExpression PI = new(SpecialConstantValue.PI);
+	public static readonly ValueExpression E = new(SpecialConstantValue.E);
 	public static readonly Expression Undefined = new UndefinedExpression();
 
 	public abstract override string ToString();

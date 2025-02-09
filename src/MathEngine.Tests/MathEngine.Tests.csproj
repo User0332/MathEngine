@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MathEngine.Algebra\MathEngine.Algebra.csproj" />
+    <ProjectReference Include="..\MathEngine.Trig\MathEngine.Trig.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
