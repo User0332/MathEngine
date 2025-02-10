@@ -33,7 +33,8 @@ public sealed class FunctionExpression(string funcName, Expression[] args) : Exp
 
 	public override string Repr()
 	{
-		return $"{funcName}({string.Join(", ", args.Select(arg => arg.Repr()))})";
+		string argsRepr = $"[\n  {string.Join(", ", args.Select(arg => arg.Repr().Replace("\n", "\n  ")))}\n]";
+		return $"FunctionExpression(\n  \"{funcName}\",\n  {argsRepr.Replace("\n", "\n  ")}\n)";
 	}
 
 	public override string ToString()
