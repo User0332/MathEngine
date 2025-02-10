@@ -1,3 +1,6 @@
+using MathEngine.Algebra.Expressions;
+using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Functions;
 using MathEngine.Trig.Functions;
 using static MathEngine.Algebra.Expressions.Expression;
 
@@ -12,7 +15,13 @@ public static class SineFunctionTest
 		Console.WriteLine(
 			sin.ValueAt(
 				3*PI/2
-			).LaTeX()
+			).Repr()
+		);
+
+		Console.WriteLine(
+			new FunctionExpression("sin", [
+				new ProductExpression((ValueExpression) 3, new ProductExpression(PI, (ValueExpression) 0.5))
+			]).Repr()
 		);
 	}
 }

@@ -1,7 +1,6 @@
 using ExtendedNumerics;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
-using MathEngine.Functions;
 using MathEngine.Values;
 using MathEngine.Values.Real.IrrationalValues;
 using MathEngine.Values.Real.RationalValues;
@@ -13,7 +12,7 @@ internal sealed class SineFunction : BaseTrigFunction
 {
 	internal SineFunction() : base("sin") {}
 	
-	public override BigComplex Approximate(BigComplex x) // todo: use power series
+	public override BigComplex Approximate(BigComplex x)
 	{
 		return BigComplex.Sin(x);
 	}
@@ -51,9 +50,9 @@ internal sealed class SineFunction : BaseTrigFunction
 
 		if (notPi is not RationalValue ratVal) return false;
 
-		Rational frac = (ratVal.InnerValue.WholePart % 2) + ratVal.InnerValue.FractionPart; // mod 2 pi since sine is periodic
+		Rational frac = ((ratVal.InnerValue.WholePart % 2) + ratVal.InnerValue.FractionPart).CanonicalForm; // mod 2 pi since sine is periodic
 
-		if (frac == 1 || frac == 0) // sin(pi) == 0, sin(0) == 0
+		if (frac == 1) // sin(pi) == 0
 		{
 			y = Expression.Zero;
 			return true;
@@ -78,21 +77,26 @@ internal sealed class SineFunction : BaseTrigFunction
 			}
 		}
 
-		if (den == 6 && (num == 1 || num == 5))
+		int adjRes = 1;
+
+		if (frac > 1) adjRes*=-1;
+		if (frac < 0) adjRes*=-1;
+
+		if (den == 6)
 		{
-			y = (ValueExpression) 0.5;
+			y = (ValueExpression) 0.5*adjRes;
 			return true;
 		}
 
-		if (den == 4 && (num == 1 || num == 3))
+		if (den == 4)
 		{
-			y = ((ValueExpression) 2).Sqrt()/2;
+			y = adjRes*((ValueExpression) 2).Sqrt()/2;
 			return true;
 		}
 
-		if (den == 3 && (num == 1 || num == 2))
+		if (den == 3)
 		{
-			y = ((ValueExpression) 3).Sqrt()/2;
+			y = adjRes*((ValueExpression) 3).Sqrt()/2;
 			return true;
 		}
 
@@ -101,20 +105,13 @@ internal sealed class SineFunction : BaseTrigFunction
 			y = (ValueExpression) (-0.5);
 			return true;
 		}
-		
-		if (den == 4 && (num == 5 || num == 7))
-		{
-			y = ((ValueExpression) (-2)).Sqrt()/2;
-			return true;
-		}
-
-		if (den == 3 && (num == 4 || num == 5))
-		{
-			y = -((ValueExpression) 3).Sqrt()/2;
-			return true;
-		}
 
 		// now try to use angle addition identities
+		// this banks on the fact that a/b = c/d + e/f where df = b and a, b, c, d, e, f are all integers
+		// TODO: need to provethe above statement
+
+
+		// half angle formula
 
 		return false;
 	}

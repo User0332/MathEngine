@@ -19,6 +19,8 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 		// Splitting Numerator (for (x+y)/n)
 		if (simplNumerator is SumExpression sumExpr) simpl = new SumExpression(new QuotientExpression(sumExpr.Left, simplDenominator), new QuotientExpression(sumExpr.Right, simplDenominator));
 		
+		if (SimplificationUtils.GetRationalValue(simplDenominator, out var denomVal)) return new ProductExpression(simplNumerator, (ValueExpression) (1/denomVal.InnerValue)).Simplify();
+
 		if (simpl is null) return new QuotientExpression(simplNumerator, simplDenominator);
 
 		return simpl.Simplify();
