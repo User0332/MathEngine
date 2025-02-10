@@ -19,4 +19,9 @@ public sealed class IntegerValue(BigInteger val) : RationalValue(val)
 	{
 		return InnerValue.ToString();
 	}
+
+	public override string LaTeX()
+	{
+		return ToString();
+	}
 }

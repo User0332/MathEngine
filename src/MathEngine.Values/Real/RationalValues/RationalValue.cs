@@ -36,6 +36,11 @@ public class RationalValue(Rational val) : RealValue
 		return $"({InnerValue})";
 	}
 
+	public override string LaTeX()
+	{
+		return $"\\frac{{ {InnerValue.Numerator} }} {{ {InnerValue.Denominator} }}";;
+	}
+
 	public static RationalValue operator +(RationalValue a, RationalValue b)
 	{
 		return new(a.InnerValue + b.InnerValue);
