@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
 		<!-- <ProjectReference Include="..\MathEngine.Values\MathEngine.Values.csproj" /> -->
-		<PackageReference Include="MathEngine.Values" Version="0.1.0" />
+		<PackageReference Include="MathEngine.Values" Version="0.2.0" />
 	</ItemGroup>
 
 	<PropertyGroup>
