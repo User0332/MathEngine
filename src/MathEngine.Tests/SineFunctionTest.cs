@@ -14,8 +14,8 @@ public static class SineFunctionTest
 
 		Console.WriteLine(
 			sin.ValueAt(
-				3*PI/2
-			).Repr()
+				PI/6
+			).LaTeX()
 		);
 
 		Console.WriteLine(
