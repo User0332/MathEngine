@@ -5,8 +5,8 @@ namespace MathEngine.Functions;
 
 public sealed class FunctionExpression(string funcName, Expression[] args) : Expression, IEquatable<FunctionExpression>
 {
-	readonly string funcName = funcName;
-	readonly ImmutableArray<Expression> args = ImmutableArray.Create(args);
+	public readonly string FuncName = funcName;
+	public readonly ImmutableArray<Expression> Args = ImmutableArray.Create(args);
 
 	public override bool Equals(Expression? other)
 	{
@@ -17,29 +17,29 @@ public sealed class FunctionExpression(string funcName, Expression[] args) : Exp
 	{
 		return
 			other is not null &&
-			funcName == other.funcName &&
-			args.SequenceEqual(other.args);
+			FuncName == other.FuncName &&
+			Args.SequenceEqual(other.Args);
 	}
 
 	public override int GetHashCode()
 	{
-		return HashCode.Combine(funcName, args);
+		return HashCode.Combine(FuncName, Args);
 	}
 
 	public override string LaTeX()
 	{
-		return $"\\operatorname{{ {funcName} }}({string.Join(", ", args.Select(arg => arg.LaTeX()))})";
+		return $"\\operatorname{{ {FuncName} }}({string.Join(", ", Args.Select(arg => arg.LaTeX()))})";
 	}
 
 	public override string Repr()
 	{
-		string argsRepr = $"[\n  {string.Join(", ", args.Select(arg => arg.Repr().Replace("\n", "\n  ")))}\n]";
-		return $"FunctionExpression(\n  \"{funcName}\",\n  {argsRepr.Replace("\n", "\n  ")}\n)";
+		string argsRepr = $"[\n  {string.Join(", ", Args.Select(arg => arg.Repr().Replace("\n", "\n  ")))}\n]";
+		return $"FunctionExpression(\n  \"{FuncName}\",\n  {argsRepr.Replace("\n", "\n  ")}\n)";
 	}
 
 	public override string ToString()
 	{
-		return $"{funcName}({string.Join(", ", args)})";
+		return $"{FuncName}({string.Join(", ", Args)})";
 	}
 
 	public override bool Equals(object? obj)
