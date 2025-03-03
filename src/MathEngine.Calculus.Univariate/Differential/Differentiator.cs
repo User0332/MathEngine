@@ -1,7 +1,9 @@
 ﻿using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Algebra.Expressions.Polynomial;
 using MathEngine.CalcPlugin;
+using MathEngine.Functions;
 
 namespace MathEngine.Calculus.Univariate.Differential;
 
@@ -35,6 +37,8 @@ public sealed class Differentiator
 
 	public Expression Differentiate(Expression expression, Variable wrt)
 	{
+		expression = expression.Simplify();
+
 		if (expression is ProductExpression prodExpr) return DifferentiateProduct(prodExpr, wrt);
 		if (expression is QuotientExpression quotExpr) return DifferentiateQuotient(quotExpr, wrt);
 
@@ -45,7 +49,60 @@ public sealed class Differentiator
 			);
 		}
 
-		return Expression.Undefined;
+		if (expression == wrt) return Expression.One; // slope
+
+		if (expression is PowerExpression powerExpr)
+		{
+			var f = powerExpr.Base;
+			var n = powerExpr.Exponent;
+
+			var fIsFunc = f.ContainsVariable(wrt);
+			var nIsFunc = n.ContainsVariable(wrt);
+
+			if (fIsFunc && !nIsFunc) // power rule
+			{
+				if (n.Simplify() == Expression.Zero) return Expression.Zero;
+
+				return n * (f ^ (n - 1)) * Differentiate(f, wrt);
+			}
+			else if (!fIsFunc && nIsFunc)
+			{
+				// derivative of exponential function, need library with natural log, exp func, etc. [unrelated to this specific case, but we also need a library that contains the DerivativeInfo for these functions]
+			}
+			else if (fIsFunc && nIsFunc)
+			{
+				// TODO
+			}
+			else // constant rule
+			{
+				return Expression.Zero;
+			}
+		}
+
+		if (expression is FunctionExpression funcExpr)
+		{
+			Expression? fPrime = null;
+
+			if (funcExpr.Args.Length != 1) throw new ArgumentException("all functions must be univariate");
+
+			foreach (var differentiator in differentiators)
+			{
+				if (
+					differentiator.TryGetWrtLinearArgument(
+						new FunctionExpression(funcExpr.FuncName, [wrt]),
+						wrt,
+						out fPrime
+					)
+				) break;
+			}
+
+			if (fPrime is null) throw new ArgumentException($"function {funcExpr.FuncName} either unknown or non-differentiable");
+
+
+			return fPrime*Differentiate(funcExpr.Args[0], wrt); // chain rule
+		}
+
+		throw new ArgumentException($"unable to take derivative of {expression} wrt {wrt}");
 	}
 	
 
