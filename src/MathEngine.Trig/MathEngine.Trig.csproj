@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MathEngine.Functions\MathEngine.Functions.csproj" />
+    <ProjectReference Include="..\MathEngine.CalcPlugin\MathEngine.CalcPlugin.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
