@@ -57,6 +57,11 @@ public sealed class Variable(char ident, string subscript = "") : Expression, IE
 		return ToString();
 	}
 
+	public override Expression SubstituteVariable(Variable var, Expression val)
+	{
+		return val;
+	}
+
 	public static bool operator ==(Variable? left, Variable? right)
 	{
 		return left?.Equals(right) ?? right is null;

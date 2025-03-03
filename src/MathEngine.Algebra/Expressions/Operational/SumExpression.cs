@@ -140,4 +140,9 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 
 		return $"{leftRepr}+{rightRepr}"; // no need for parens because addition is the lowest order operation
 	}
+
+	public override Expression SubstituteVariable(Variable var, Expression val)
+	{
+		return new SumExpression(var, val);
+	}
 }

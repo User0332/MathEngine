@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
 
 namespace MathEngine.Functions;
@@ -45,5 +46,10 @@ public sealed class FunctionExpression(string funcName, Expression[] args) : Exp
 	public override bool Equals(object? obj)
 	{
 		return Equals(obj as FunctionExpression);
+	}
+
+	public override Expression SubstituteVariable(Variable var, Expression val)
+	{
+		return new FunctionExpression(FuncName, [..Args.Select(arg => arg.SubstituteVariable(var, val))]);
 	}
 }

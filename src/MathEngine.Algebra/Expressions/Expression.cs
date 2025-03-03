@@ -36,7 +36,10 @@ public abstract class Expression : IEquatable<Expression>
 	{
 		if (this is Variable) return true;
 
+		if (this is PolynomialExpression) return true;
+
 		if (this is OperationExpression opExpr) return opExpr.Left.ContainsVariable() || opExpr.Right.ContainsVariable();
+
 
 		return false;
 	}
@@ -45,10 +48,14 @@ public abstract class Expression : IEquatable<Expression>
 	{
 		if (this is Variable innerVar && innerVar == testFor) return true;
 
+		if (this is PolynomialExpression polyExpr && polyExpr.Variable == testFor) return true;
+
 		if (this is OperationExpression opExpr) return opExpr.Left.ContainsVariable(testFor) || opExpr.Right.ContainsVariable(testFor);
 
 		return false;
 	}
+
+	public abstract Expression SubstituteVariable(Variable var, Expression val);
  
 	public abstract bool Equals(Expression? other);
 	public abstract override int GetHashCode();

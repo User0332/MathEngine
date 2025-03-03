@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Solver.Polynomial;
@@ -266,5 +264,10 @@ public class PolynomialExpression : Expression
 	public override string Repr()
 	{
 		return BaseNode.Repr();
+	}
+
+	public override Expression SubstituteVariable(Variable var, Expression val)
+	{
+		return BaseNode.SubstituteVariable(var, val);
 	}
 }

@@ -44,4 +44,8 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 		return $"\\frac{{ {Left.LaTeX()} }}{{ {Right.LaTeX()} }}";
 	}
 
+	public override Expression SubstituteVariable(Variable var, Expression val)
+	{
+		return new QuotientExpression(var, val);
+	}
 }
