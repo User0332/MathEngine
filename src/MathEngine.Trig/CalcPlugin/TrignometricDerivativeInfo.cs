@@ -2,6 +2,7 @@ using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
 using MathEngine.CalcPlugin;
 using MathEngine.Functions;
+using MathEngine.Trig.Expressions;
 
 namespace MathEngine.Trig.CalcPlugin;
 
@@ -11,37 +12,37 @@ public class TrignometricDerivativeInfo : UnivariateDerivativeInfo
 	{
 		if (funcName == "sin")
 		{
-			derivative = new FunctionExpression("cos", [wrt]);
+			derivative = new TrigFunctionExpression("cos", wrt);
 			return true;
 		}
 
 		if (funcName == "cos")
 		{
-			derivative = new FunctionExpression("sin", [wrt])*-1;
+			derivative = new TrigFunctionExpression("sin", wrt)*-1;
 			return true;
 		}
 
 		if (funcName == "tan")
 		{
-			derivative = new FunctionExpression("sec", [wrt])^2;
+			derivative = new TrigFunctionExpression("sec", wrt)^2;
 			return true;
 		}
 
 		if (funcName == "csc")
 		{
-			derivative = new FunctionExpression("csc", [wrt]) * new FunctionExpression("cot", [wrt]) * -1;
+			derivative = new TrigFunctionExpression("csc", wrt) * new TrigFunctionExpression("cot", wrt) * -1;
 			return true;
 		}
 
 		if (funcName == "sec")
 		{
-			derivative = new FunctionExpression("sec", [wrt]) * new FunctionExpression("tan", [wrt]);
+			derivative = new TrigFunctionExpression("sec", wrt) * new TrigFunctionExpression("tan", wrt);
 			return true;
 		}
 
 		if (funcName == "cot")
 		{
-			derivative = new FunctionExpression("csc", [wrt])^2 * -1;
+			derivative = new TrigFunctionExpression("csc", wrt)^2 * -1;
 			return true;
 		}
 

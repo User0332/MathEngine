@@ -19,6 +19,7 @@ internal sealed class CosineFunction : BaseTrigFunction
 
 	public override bool TryCalculateExactValue(Expression x, out Expression y)
 	{
+
 		y = null!;
 	
 		if (x == Expression.Zero)
