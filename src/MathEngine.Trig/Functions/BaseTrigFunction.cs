@@ -3,7 +3,7 @@ using MathEngine.Functions;
 
 namespace MathEngine.Trig.Functions;
 
-internal abstract class BaseTrigFunction : SingleVariableFunction
+internal abstract class BaseTrigFunction : UnivariateFunction
 {
 	public readonly string Name;
 	readonly Dictionary<Expression, Expression> _exactValueCache = [];

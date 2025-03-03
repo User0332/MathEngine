@@ -4,5 +4,5 @@ namespace MathEngine.Trig.Functions;
 
 public static class TrigFunctions
 {
-	public static readonly SingleVariableFunction Sin = new SineFunction();
+	public static readonly UnivariateFunction Sin = new SineFunction();
 }
