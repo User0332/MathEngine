@@ -1,5 +1,6 @@
 ﻿using MathEngine.Algebra.Expressions;
 using MathEngine.Functions;
+using MathEngine.Trig.Expressions;
 
 namespace MathEngine.Trig.Functions;
 
@@ -24,6 +25,6 @@ internal abstract class BaseTrigFunction : UnivariateFunction
 			return _exactValueCache[x] = y;
 		}
 
-		return new FunctionExpression(Name, [ x ]);
+		return new TrigFunctionExpression(Name, x);
 	}
 }

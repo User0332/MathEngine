@@ -4,7 +4,7 @@ using MathEngine.Algebra.Expressions;
 
 namespace MathEngine.Functions;
 
-public sealed class FunctionExpression(string funcName, Expression[] args) : Expression, IEquatable<FunctionExpression>
+public class FunctionExpression(string funcName, Expression[] args) : Expression, IEquatable<FunctionExpression>
 {
 	public readonly string FuncName = funcName;
 	public readonly ImmutableArray<Expression> Args = ImmutableArray.Create(args);
