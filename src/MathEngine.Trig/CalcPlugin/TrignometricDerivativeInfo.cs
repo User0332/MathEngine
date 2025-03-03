@@ -7,7 +7,7 @@ namespace MathEngine.Trig.CalcPlugin;
 
 public class TrignometricDerivativeInfo : UnivariateDerivativeInfo
 {
-	protected override bool TryGetDerivative(string funcName, out Expression derivative, Variable wrt)
+	protected override bool TryGetDerivative(string funcName, Variable wrt, out Expression derivative)
 	{
 		if (funcName == "sin")
 		{
