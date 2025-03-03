@@ -1,7 +1,6 @@
 ﻿using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
-using MathEngine.Algebra.Expressions.Polynomial;
 using MathEngine.CalcPlugin;
 using MathEngine.Functions;
 
@@ -98,6 +97,7 @@ public sealed class Differentiator
 
 			if (fPrime is null) throw new ArgumentException($"function {funcExpr.FuncName} either unknown or non-differentiable");
 
+			Console.WriteLine(fPrime.Repr());
 
 			return fPrime.SubstituteVariable(wrt, funcExpr.Args[0])*Differentiate(funcExpr.Args[0], wrt); // chain rule
 		}
