@@ -8,17 +8,17 @@ using Rationals;
 
 namespace MathEngine.Trig.Functions;
 
-internal sealed class SineFunction : BaseTrigFunction
+internal sealed class CosineFunction : BaseTrigFunction
 {
-	internal SineFunction() : base("sin") {}
+	internal CosineFunction() : base("cos") {}
 	
 	public override BigComplex Approximate(BigComplex x)
 	{
-		return BigComplex.Sin(x);
+		return BigComplex.Cos(x);
 	}
 
 	public override bool TryCalculateExactValue(Expression x, out Expression y)
-	{	
+	{
 		y = null!;
 	
 		if (x == Expression.Zero)
@@ -64,27 +64,17 @@ internal sealed class SineFunction : BaseTrigFunction
 
 		if (den == 2)
 		{
-			if (num == 1)
-			{
-				y = Expression.One;
-				return true;
-			}
-
-			if (num == 3)
-			{
-				y = Expression.NegativeOne;
-				return true;
-			}
+			y = Expression.Zero;
+			return true;
 		}
 
 		int adjRes = 1;
 
-		if (frac > 1) adjRes*=-1;
-		if (frac < 0) adjRes*=-1;
+		if (frac > (Rational.One/2) && frac < (3*Rational.One/2)) adjRes*=-1;
 
 		if (den == 6)
 		{
-			y = (ValueExpression) 0.5*adjRes;
+			y =  adjRes*((ValueExpression) 3).Sqrt()/2;
 			return true;
 		}
 
@@ -96,7 +86,7 @@ internal sealed class SineFunction : BaseTrigFunction
 
 		if (den == 3)
 		{
-			y = adjRes*((ValueExpression) 3).Sqrt()/2;
+			y = (ValueExpression) 0.5*adjRes;
 			return true;
 		}
 
