@@ -62,6 +62,16 @@ public sealed class Variable(char ident, string subscript = "") : Expression, IE
 		return val;
 	}
 
+	public override bool ContainsVariable()
+	{
+		return true;
+	}
+
+	public override bool ContainsVariable(Variable testFor)
+	{
+		return this == testFor;
+	}
+
 	public static bool operator ==(Variable? left, Variable? right)
 	{
 		return left?.Equals(right) ?? right is null;

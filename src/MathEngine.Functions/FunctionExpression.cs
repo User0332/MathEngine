@@ -52,4 +52,14 @@ public sealed class FunctionExpression(string funcName, Expression[] args) : Exp
 	{
 		return new FunctionExpression(FuncName, [..Args.Select(arg => arg.SubstituteVariable(var, val))]);
 	}
+
+	public override bool ContainsVariable()
+	{
+		return Args.Any(arg => arg.ContainsVariable());
+	}
+
+	public override bool ContainsVariable(Variable testFor)
+	{
+		return Args.Any(arg => arg.ContainsVariable(testFor));
+	}
 }

@@ -14,6 +14,16 @@ internal class UndefinedExpression : Expression
 	{
 		return this;
 	}
+	
+	public override bool ContainsVariable()
+	{
+		return false;
+	}
+
+	public override bool ContainsVariable(Variable testFor)
+	{
+		return false;
+	}
 
 	public override string ToString() => "undefined";
 }

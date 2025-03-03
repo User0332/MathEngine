@@ -32,28 +32,9 @@ public abstract class Expression : IEquatable<Expression>
 		return PolynomialExpression.From(this);
 	}
 
-	public bool ContainsVariable()
-	{
-		if (this is Variable) return true;
+	public abstract bool ContainsVariable();
 
-		if (this is PolynomialExpression) return true;
-
-		if (this is OperationExpression opExpr) return opExpr.Left.ContainsVariable() || opExpr.Right.ContainsVariable();
-
-
-		return false;
-	}
-
-	public bool ContainsVariable(Variable testFor)
-	{
-		if (this is Variable innerVar && innerVar == testFor) return true;
-
-		if (this is PolynomialExpression polyExpr && polyExpr.Variable == testFor) return true;
-
-		if (this is OperationExpression opExpr) return opExpr.Left.ContainsVariable(testFor) || opExpr.Right.ContainsVariable(testFor);
-
-		return false;
-	}
+	public abstract bool ContainsVariable(Variable testFor);
 
 	public abstract Expression SubstituteVariable(Variable var, Expression val);
  

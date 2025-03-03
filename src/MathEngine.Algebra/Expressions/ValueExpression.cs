@@ -38,6 +38,17 @@ public sealed class ValueExpression(Value inner) : Expression
 		return this;
 	}
 
+
+	public override bool ContainsVariable()
+	{
+		return false;
+	}
+
+	public override bool ContainsVariable(Variable testFor)
+	{
+		return false;
+	}
+
 	public override string ToString()
 	{
 		return Inner.ToString();

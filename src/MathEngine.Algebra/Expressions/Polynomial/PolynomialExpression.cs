@@ -270,4 +270,14 @@ public class PolynomialExpression : Expression
 	{
 		return BaseNode.SubstituteVariable(var, val);
 	}
+
+	public override bool ContainsVariable()
+	{
+		return true; // PolynomialExpressions always contain a variable
+	}
+
+	public override bool ContainsVariable(Variable testFor)
+	{
+		return Variable == testFor;
+	}
 }

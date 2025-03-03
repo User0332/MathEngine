@@ -25,6 +25,17 @@ public abstract class OperationExpression : Expression
 
 	internal OperationExpression(Expression left, Expression right, char op) : this(left, right, op.ToString()) { }
 
+	
+	public override bool ContainsVariable()
+	{
+		return Left.ContainsVariable() || Right.ContainsVariable();
+	}
+
+	public override bool ContainsVariable(Variable testFor)
+	{
+		return Left.ContainsVariable(testFor) || Right.ContainsVariable(testFor);
+	}
+
 	public abstract override Expression Simplify();
 
 	public override string Repr() // string.Replace() used to preserve cascading indentation
