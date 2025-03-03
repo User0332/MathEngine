@@ -35,6 +35,17 @@ public sealed class NormalizedPolynomialExpression : PolynomialExpression
 		).InnerValue;
 	}
 
+	/// <summary>
+	/// NOTE: This function must ONLY be called with a term from a <see cref="NormalizedPolynomialExpression"/>
+	/// </summary>
+	/// <param name="term"></param>
+	/// <returns></returns>
+
+	public static Expression CoefficientOfNormalizedTerm(ProductExpression term)
+	{
+		return term.Left;
+	}
+
 	public static new NormalizedPolynomialExpression From(Expression expr)
 	{
 		return PolynomialExpression.From(expr).Normalize();
