@@ -46,6 +46,6 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 
 	public override Expression SubstituteVariable(Variable var, Expression val)
 	{
-		return new QuotientExpression(var, val);
+		return new QuotientExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
 	}
 }

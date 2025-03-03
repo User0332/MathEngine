@@ -91,6 +91,6 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 
 	public override Expression SubstituteVariable(Variable var, Expression val)
 	{
-		return new PowerExpression(var, val);
+		return new PowerExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
 	}
 }

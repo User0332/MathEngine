@@ -1,3 +1,5 @@
+using System.Runtime.ConstrainedExecution;
+
 namespace MathEngine.Algebra.Expressions.Operational;
 
 public sealed class ProductExpression(Expression left, Expression right) : OperationExpression(left, right, '*')
@@ -140,6 +142,6 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 
 	public override Expression SubstituteVariable(Variable var, Expression val)
 	{
-		return new ProductExpression(var, val);
+		return new ProductExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
 	}
 }

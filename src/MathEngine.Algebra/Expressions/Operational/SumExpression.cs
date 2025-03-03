@@ -143,6 +143,6 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 
 	public override Expression SubstituteVariable(Variable var, Expression val)
 	{
-		return new SumExpression(var, val);
+		return new SumExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
 	}
 }
