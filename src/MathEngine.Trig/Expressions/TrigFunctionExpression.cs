@@ -13,6 +13,10 @@ internal sealed class TrigFunctionExpression(string funcName, Expression arg) : 
 		{
 			"sin" => TrigFunctions.Sin.ValueAt(Args[0]),
 			"cos" => TrigFunctions.Cos.ValueAt(Args[0]),
+			"tan" => TrigFunctions.Tan.ValueAt(Args[0]),
+			"csc" => TrigFunctions.Csc.ValueAt(Args[0]),
+			"sec" => TrigFunctions.Sec.ValueAt(Args[0]),
+			"cot" => TrigFunctions.Cot.ValueAt(Args[0]),
 			_ => throw new NotImplementedException($"unknown trig function {FuncName}"),
 		};
 	}

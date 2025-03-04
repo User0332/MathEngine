@@ -11,6 +11,8 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 
 		if (simplDenominator == Zero || simplDenominator == Undefined || simplNumerator == Undefined) return Undefined;
 
+		Console.WriteLine((simplNumerator, simplDenominator));
+
 		if (simplNumerator == Zero) return Zero;
 		if (simplNumerator == simplDenominator) return One;
 		if (simplDenominator == One) return simplNumerator;
@@ -42,7 +44,7 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 		if (Right is SumExpression) rightRepr = $"({Right})";
 		else rightRepr = Right.ToString();
 
-		return $"{leftRepr}/{rightRepr}";
+		return $"({leftRepr}/{rightRepr})";
 	}
 
 	public override string LaTeX()

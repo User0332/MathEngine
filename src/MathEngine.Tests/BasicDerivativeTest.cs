@@ -26,5 +26,11 @@ public static class BasicDerivativeTest
 		Console.WriteLine(derivative);
 		Console.WriteLine(fPrime.ValueAt(Expression.PI/2));
 		Console.WriteLine(fPrime.ValueAt(Expression.PI/2).Simplify());
+
+		Console.WriteLine(
+			differentiator.Differentiate(
+				TrigFunctions.Sin.ValueAt(x)/TrigFunctions.Cos.ValueAt(x), x
+			).Simplify().Simplify()
+		);
 	}
 }

@@ -37,6 +37,14 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 	{
 		var (simplLeft, simplRight) = (Left.Simplify(), Right.Simplify());
 
+		if (simplLeft == Undefined || simplRight == Undefined) return Undefined;
+
+		if (simplLeft == Zero || simplRight == Zero) return Zero;
+		if (simplLeft == simplRight) return new PowerExpression(simplLeft, (ValueExpression) 2).Simplify();
+		if (simplLeft == One) return simplRight;
+		if (simplRight == One) return simplLeft;
+
+
 		var leftIsRational = SimplificationUtils.GetRationalValue(simplLeft, out var leftRat);
 		var rightIsRational = SimplificationUtils.GetRationalValue(simplRight, out var rightRat);
 
