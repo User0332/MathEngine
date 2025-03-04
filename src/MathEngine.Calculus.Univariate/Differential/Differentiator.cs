@@ -33,7 +33,6 @@ public sealed class Differentiator
 		return differentiators.Any(x => x is T);
 	}
 
-
 	public Expression Differentiate(Expression expression, Variable wrt)
 	{
 		expression = expression.Simplify();

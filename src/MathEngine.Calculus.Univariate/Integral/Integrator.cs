@@ -9,6 +9,7 @@ namespace MathEngine.Calculus.Univariate.Integral;
 public sealed class Integrator
 {
 	public List<UnivariateAntiderivativeInfo> integrators = [];
+	public List<ExpressionManipulationInfo> exprManipulators = [];
 
 	public void AddPlugin<T>() where T: UnivariateAntiderivativeInfo, new()
 	{
@@ -33,6 +34,28 @@ public sealed class Integrator
 		return integrators.Any(x => x is T);
 	}
 
+	public void AddManipulationPlugin<T>() where T: ExpressionManipulationInfo, new()
+	{
+		if (IsUsingManipulationPlugin<T>()) return;
+		exprManipulators.Add(new T());
+	}
+
+	public void RemoveManipulationPlugin<T>() where T: ExpressionManipulationInfo
+	{
+		foreach (var plugin in exprManipulators)
+		{
+			if (plugin is T)
+			{
+				exprManipulators.Remove(plugin);
+				return;
+			}
+		}
+	}
+
+	public bool IsUsingManipulationPlugin<T>() where T: ExpressionManipulationInfo
+	{
+		return exprManipulators.Any(x => x is T);
+	}
 
 	public Expression Integrate(Expression expression, Variable wrt)
 	{

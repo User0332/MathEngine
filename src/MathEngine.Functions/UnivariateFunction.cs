@@ -22,13 +22,15 @@ public abstract class UnivariateFunction : Function
 	}
 
 
-	public abstract Expression ValueAt(Expression args);
-	public abstract BigComplex Approximate(BigComplex args);
+	public abstract Expression ValueAt(Expression arg);
+	public abstract BigComplex Approximate(BigComplex arg);
 
 	public static UnivariateFunction FromExpression(Expression expr, Variable var)
 	{
 		return new UnivariateExprFunc(expr, var);
 	}
+
+	public new Func<Expression, Expression> AsDelegate() => ValueAt;
 }
 
 class UnivariateExprFunc(Expression funcExpr, Variable var) : UnivariateFunction

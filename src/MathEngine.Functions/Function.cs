@@ -13,6 +13,8 @@ public abstract class Function
 	{
 		return new ExprFunc(expr, vars);
 	}
+
+	public Func<Expression[], Expression> AsDelegate() => ValueAt;
 }
 
 class ExprFunc(Expression funcExpr, Variable[] vars) : Function
