@@ -89,8 +89,8 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 		return $"{baseRepr}^{{ {Exponent.LaTeX()} }}";
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
-		return new PowerExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
+		return new PowerExpression(Left.Substitute(var, val), Right.Substitute(var, val));
 	}
 }

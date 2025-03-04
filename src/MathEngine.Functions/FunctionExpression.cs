@@ -48,9 +48,9 @@ public class FunctionExpression(string funcName, Expression[] args) : Expression
 		return Equals(obj as FunctionExpression);
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
-		return new FunctionExpression(FuncName, [..Args.Select(arg => arg.SubstituteVariable(var, val))]);
+		return new FunctionExpression(FuncName, [..Args.Select(arg => arg.Substitute(var, val))]);
 	}
 
 	public override bool ContainsVariable()

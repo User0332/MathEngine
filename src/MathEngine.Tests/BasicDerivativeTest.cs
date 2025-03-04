@@ -30,7 +30,7 @@ public static class BasicDerivativeTest
 		Console.WriteLine(
 			differentiator.Differentiate(
 				TrigFunctions.Sin.ValueAt(x)/TrigFunctions.Cos.ValueAt(x), x
-			).Simplify().Simplify()
+			).Simplify()
 		);
 	}
 }

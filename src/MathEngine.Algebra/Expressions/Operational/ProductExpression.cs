@@ -148,8 +148,8 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 		return $"{leftRepr} {rightRepr}";
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
-		return new ProductExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
+		return new ProductExpression(Left.Substitute(var, val), Right.Substitute(var, val));
 	}
 }

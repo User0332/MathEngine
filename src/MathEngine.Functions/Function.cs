@@ -36,7 +36,7 @@ class ExprFunc(Expression funcExpr, Variable[] vars) : Function
 
 		foreach (var (var, arg) in vars.Zip(args))
 		{
-			retExpr = retExpr.SubstituteVariable(var, arg);
+			retExpr = retExpr.Substitute(var, arg);
 		}
 
 		return retExpr;

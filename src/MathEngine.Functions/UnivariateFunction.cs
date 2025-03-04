@@ -43,6 +43,6 @@ class UnivariateExprFunc(Expression funcExpr, Variable var) : UnivariateFunction
 
 	public override Expression ValueAt(Expression arg)
 	{
-		return expr.SubstituteVariable(var, arg);
+		return expr.Substitute(var, arg);
 	}
 }

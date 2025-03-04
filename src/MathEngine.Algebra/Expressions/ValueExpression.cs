@@ -33,7 +33,7 @@ public sealed class ValueExpression(Value inner) : Expression
 		return Inner.ToString();
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
 		return this;
 	}

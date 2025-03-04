@@ -141,8 +141,8 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 		return $"{leftRepr}+{rightRepr}"; // no need for parens because addition is the lowest order operation
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
-		return new SumExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
+		return new SumExpression(Left.Substitute(var, val), Right.Substitute(var, val));
 	}
 }

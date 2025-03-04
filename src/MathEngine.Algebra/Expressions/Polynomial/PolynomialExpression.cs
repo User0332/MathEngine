@@ -266,9 +266,9 @@ public class PolynomialExpression : Expression
 		return BaseNode.Repr();
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
-		return BaseNode.SubstituteVariable(var, val);
+		return BaseNode.Substitute(var, val);
 	}
 
 	public override bool ContainsVariable()

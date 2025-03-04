@@ -11,8 +11,6 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 
 		if (simplDenominator == Zero || simplDenominator == Undefined || simplNumerator == Undefined) return Undefined;
 
-		Console.WriteLine((simplNumerator, simplDenominator));
-
 		if (simplNumerator == Zero) return Zero;
 		if (simplNumerator == simplDenominator) return One;
 		if (simplDenominator == One) return simplNumerator;
@@ -52,8 +50,8 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 		return $"\\frac{{ {Left.LaTeX()} }}{{ {Right.LaTeX()} }}";
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
-		return new QuotientExpression(Left.SubstituteVariable(var, val), Right.SubstituteVariable(var, val));
+		return new QuotientExpression(Left.Substitute(var, val), Right.Substitute(var, val));
 	}
 }

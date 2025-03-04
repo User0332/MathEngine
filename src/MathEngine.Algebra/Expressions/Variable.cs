@@ -57,7 +57,7 @@ public sealed class Variable(char ident, string subscript = "") : Expression, IE
 		return ToString();
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
 		return val;
 	}

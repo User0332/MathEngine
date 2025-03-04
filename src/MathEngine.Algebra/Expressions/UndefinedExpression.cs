@@ -10,7 +10,7 @@ internal class UndefinedExpression : Expression
 	public override string LaTeX() => "NaN";
 	public override string Repr() => "undefined";
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
 		return this;
 	}

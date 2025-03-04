@@ -22,10 +22,10 @@ public abstract class Expression : IEquatable<Expression>
 	public abstract string Repr();
 	public virtual Expression Simplify() => this;
 
-	public PowerExpression Square() => new PowerExpression(this, (ValueExpression) 2);
-	public PowerExpression Cube() => new PowerExpression(this, (ValueExpression) 3);
-	public PowerExpression Sqrt() => new PowerExpression(this, (ValueExpression) ((Rational) 1/2));
-	public PowerExpression Cbrt() => new PowerExpression(this, (ValueExpression) ((Rational) 1/3));
+	public PowerExpression Square() => new(this, (ValueExpression) 2);
+	public PowerExpression Cube() => new(this, (ValueExpression) 3);
+	public PowerExpression Sqrt() => new(this, (ValueExpression) ((Rational) 1/2));
+	public PowerExpression Cbrt() => new(this, (ValueExpression) ((Rational) 1/3));
 
 	public PolynomialExpression ToPolynomial()
 	{
@@ -36,7 +36,7 @@ public abstract class Expression : IEquatable<Expression>
 
 	public abstract bool ContainsVariable(Variable testFor);
 
-	public abstract Expression SubstituteVariable(Variable var, Expression val);
+	public abstract Expression Substitute(Variable var, Expression val);
  
 	public abstract bool Equals(Expression? other);
 	public abstract override int GetHashCode();

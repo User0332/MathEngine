@@ -97,9 +97,7 @@ public sealed class Differentiator
 
 			if (fPrime is null) throw new ArgumentException($"function {funcExpr.FuncName} either unknown or non-differentiable");
 
-			Console.WriteLine(fPrime.Repr());
-
-			return fPrime.SubstituteVariable(wrt, funcExpr.Args[0])*Differentiate(funcExpr.Args[0], wrt); // chain rule
+			return fPrime.Substitute(wrt, funcExpr.Args[0])*Differentiate(funcExpr.Args[0], wrt); // chain rule
 		}
 
 		throw new ArgumentException($"unable to take derivative of {expression} wrt {wrt}");

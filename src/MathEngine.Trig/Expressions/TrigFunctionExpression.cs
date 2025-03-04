@@ -21,9 +21,9 @@ internal sealed class TrigFunctionExpression(string funcName, Expression arg) : 
 		};
 	}
 
-	public override Expression SubstituteVariable(Variable var, Expression val)
+	public override Expression Substitute(Variable var, Expression val)
 	{
-		return new TrigFunctionExpression(FuncName, Args[0].SubstituteVariable(var, val));
+		return new TrigFunctionExpression(FuncName, Args[0].Substitute(var, val));
 	}
 
 	public override string Repr()

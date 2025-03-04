@@ -10,7 +10,7 @@ public static class IntegrationApplicationExtensions
 	{
 		var antiDeriv = integrator.Integrate(func, wrt);
 
-		return antiDeriv.SubstituteVariable(wrt, b) - antiDeriv.SubstituteVariable(wrt, a);
+		return antiDeriv.Substitute(wrt, b) - antiDeriv.Substitute(wrt, a);
 	}
 
 	public static Expression AverageValueOfFunction(this Integrator integrator, Expression func, Expression a, Expression b, Variable wrt)
