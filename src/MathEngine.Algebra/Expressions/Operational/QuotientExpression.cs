@@ -9,7 +9,11 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 	{
 		var (simplNumerator, simplDenominator) = (Numerator.Simplify(), Denominator.Simplify());
 
-		if (simplDenominator == Zero) return Undefined;
+		if (simplDenominator == Zero || simplDenominator == Undefined || simplNumerator == Undefined) return Undefined;
+
+		if (simplNumerator == Zero) return Zero;
+		if (simplNumerator == simplDenominator) return One;
+		if (simplDenominator == One) return simplNumerator;
 
 		Expression? simpl = null;
 
