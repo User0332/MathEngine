@@ -12,7 +12,7 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 		if (simplDenominator == Zero || simplDenominator == Undefined || simplNumerator == Undefined) return Undefined;
 
 		if (simplNumerator == Zero) return Zero;
-		if (simplNumerator == simplDenominator) return One;
+		if (simplNumerator == simplDenominator && !simplDenominator.ContainsVariable()) return One; // this may lead to undefined if the denominator is zero, so we make sure it can never be zero by the above if cases (and checking here that there is no variable in it, which could cause it to become zero)
 		if (simplDenominator == One) return simplNumerator;
 
 		Expression? simpl = null;
