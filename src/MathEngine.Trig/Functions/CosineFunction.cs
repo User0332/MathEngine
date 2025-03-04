@@ -24,7 +24,7 @@ internal sealed class CosineFunction : BaseTrigFunction
 	
 		if (x == Expression.Zero)
 		{
-			y = Expression.Zero;
+			y = Expression.One;
 			return true;
 		}
 
@@ -53,9 +53,9 @@ internal sealed class CosineFunction : BaseTrigFunction
 
 		Rational frac = ((ratVal.InnerValue.WholePart % 2) + ratVal.InnerValue.FractionPart).CanonicalForm; // mod 2 pi since sine is periodic
 
-		if (frac == 1) // sin(pi) == 0
+		if (frac == 1) // cos(pi) == -1
 		{
-			y = Expression.Zero;
+			y = Expression.NegativeOne;
 			return true;
 		}
 
