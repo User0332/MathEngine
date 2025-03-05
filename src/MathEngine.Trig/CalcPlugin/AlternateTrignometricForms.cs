@@ -71,7 +71,33 @@ public class AlternateTrignometricForms : ExpressionManipulationInfo
 				Expression.OneHalf*(cot(x/2)-tan(x/2))
 				-cot(-x)
 			],
-
+			[
+				sin(x)^2,
+				1-(cos(x)^2),
+				Expression.OneHalf*(1-cos(2*x)),
+			],
+			[
+				cos(x)^2,
+				1-(sin(x)^2),
+				Expression.OneHalf*(1 + cos(2*x)),
+			],
+			[
+				tan(x)^2,
+				(sin(2*x)^2)/((cos(2*x)+1)^2),
+				(sec(x)^2)-1
+			],
+			[
+				sec(x)^2,
+				(tan(x)^2)+1
+			],
+			[
+				csc(x)^2,
+				(cot(x)^2)+1
+			],
+			[
+				cot(x)^2,
+				(csc(x)^2)-1
+			]
 			// TODO: need to add trig, half angle, double angle, angle addition, power reducing, etc. identities
 		];
 		
