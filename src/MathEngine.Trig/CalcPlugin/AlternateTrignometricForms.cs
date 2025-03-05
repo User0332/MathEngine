@@ -44,19 +44,22 @@ public class AlternateTrignometricForms : ExpressionManipulationInfo
 				1/cot(x),
 				-cot(2*x)+csc(2*x),
 				sin(2*x)/(1+cos(2*x)),
-				2*tan(x/2)/(1-(tan(x/2)^2))
+				2*tan(x/2)/(1-(tan(x/2)^2)),
+				-tan(-x)
 			],
 			[
 				csc(x),
 				sec(pi/2 - x),
 				1/sin(x),
-				Expression.OneHalf*csc(x/2)*sec(x/2)
+				Expression.OneHalf*csc(x/2)*sec(x/2),
+				-csc(-x)
 			],
 			[
 				sec(x),
 				csc(pi/2 - x),
 				1/cos(x),
-				(sec(x/2)^2)/(2-(sec(x/2)^2))
+				(sec(x/2)^2)/(2-(sec(x/2)^2)),
+				sec(-x)
 			],
 			[
 				cot(x),
@@ -66,6 +69,7 @@ public class AlternateTrignometricForms : ExpressionManipulationInfo
 				csc(x)*sec(x)-tan(x),
 				sin(2*x)/(1-cos(2*x)),
 				Expression.OneHalf*(cot(x/2)-tan(x/2))
+				-cot(-x)
 			],
 
 			// TODO: need to add trig, half angle, double angle, angle addition, power reducing, etc. identities
