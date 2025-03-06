@@ -1,11 +1,12 @@
 // class merely to denote undefined values
 
-using MathEngine.Algebra;
-using MathEngine.Algebra.Expressions;
+namespace MathEngine.Algebra.Expressions;
 
-internal class UndefinedExpression : Expression
+public class UndefinedExpression : Expression
 {
-	public override bool Equals(Expression? other) => other is UndefinedExpression;
+	internal UndefinedExpression() { }
+	
+	public override bool Equals(Expression? other) => other is UndefinedExpression && other is not IndeterminateExpression;
 	public override int GetHashCode() => 917248130;
 	public override string LaTeX() => "NaN";
 	public override string Repr() => "undefined";
