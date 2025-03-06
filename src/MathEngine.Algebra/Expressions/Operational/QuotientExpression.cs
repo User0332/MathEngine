@@ -9,6 +9,8 @@ public sealed class QuotientExpression(Expression left, Expression right) : Oper
 	{
 		var (simplNumerator, simplDenominator) = (Numerator.Simplify(), Denominator.Simplify());
 
+		if (simplNumerator == Zero && simplDenominator == Zero) return new IndeterminateExpression(IndeterminateExpression.Form.ZeroOverZero);
+		
 		if (simplDenominator == Zero || simplDenominator == Undefined || simplNumerator == Undefined) return Undefined;
 
 		if (simplNumerator == Zero) return Zero;

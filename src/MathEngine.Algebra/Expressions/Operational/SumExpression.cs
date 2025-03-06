@@ -38,6 +38,8 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 		if (Left.Equals(Right)) return new ProductExpression((ValueExpression) 2, Left).Simplify();
 
 		var (simplLeft, simplRight) = (Left.Simplify(), Right.Simplify());
+
+		if (simplLeft == Undefined || simplRight == Undefined) return Undefined;
 		
 		if (SimplificationUtils.GetRationalValue(simplLeft, out var leftRat) && SimplificationUtils.GetRationalValue(simplRight, out var rightRat))
 		{

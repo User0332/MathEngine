@@ -13,6 +13,10 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 	{
 		var (simplBase, simplExp) = (Base.Simplify(), Exponent.Simplify());
 
+		if (simplBase == Undefined || simplExp == Undefined) return Undefined;
+
+		if (simplBase == Zero && simplExp == Zero) return new IndeterminateExpression(IndeterminateExpression.Form.ZeroToTheZero);
+
 		if (SimplificationUtils.GetRationalValue(simplBase, out var baseRat) && SimplificationUtils.GetRationalValue(simplExp, out var expRat))
 		{
 			var exp = expRat.InnerValue.CanonicalForm;
