@@ -8,10 +8,12 @@ namespace MathEngine.Trig.CalcPlugin;
 public class AlternateTrignometricForms : ExpressionManipulationInfo
 {
 	static readonly HashSet<Expression>[] alternateFormData;
+	static readonly Variable internalVar = new('@', "internalrestricted_AlternateTrignometricForms");
 
 	static AlternateTrignometricForms() // initialize trig identity data
 	{
-		var x = Variable.X;
+		var x = internalVar;
+
 		var sin = TrigFunctions.Sin.AsDelegate();
 		var cos = TrigFunctions.Cos.AsDelegate();
 		var tan = TrigFunctions.Tan.AsDelegate();
@@ -105,12 +107,14 @@ public class AlternateTrignometricForms : ExpressionManipulationInfo
 
 	public override IEnumerable<Expression> GetAlternateForms(Expression expr, Variable focus)
 	{
-		var searchExpr = expr.Substitute(focus, Variable.X);
+		var searchExpr = expr.Substitute(focus, internalVar);
 
 		var matchingSet = alternateFormData.FirstOrDefault(altExprs => altExprs.Contains(searchExpr)) ?? [];
 
-		return matchingSet
+		var finalSet = matchingSet;
+
+		return finalSet
 			.Where(form => form != searchExpr)
-			.Select(altExpr => altExpr.Substitute(Variable.X, focus));
+			.Select(altExpr => altExpr.Substitute(internalVar, focus));
 	}
 }
