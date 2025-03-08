@@ -8,7 +8,7 @@ public sealed class NormalizedPolynomialExpression : PolynomialExpression
 {
 	public readonly ImmutableArray<ProductExpression> NormalizedTerms;
 
-	internal NormalizedPolynomialExpression(ProductExpression[] terms) : base(SumExpression.FromTerms(terms))
+	internal NormalizedPolynomialExpression(ProductExpression[] terms) : base(terms.Length > 1 ? SumExpression.FromTerms(terms) : terms[0])
 	{
 		NormalizedTerms = ImmutableArray.Create(terms);
 	}

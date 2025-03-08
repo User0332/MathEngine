@@ -1,5 +1,3 @@
-
-
 using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Calculus.Univariate.Limits;
