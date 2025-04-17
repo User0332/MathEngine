@@ -165,7 +165,7 @@ public class PolynomialExpression : Expression
 	/// </summary>
 	/// <param name="baseExpr"></param>
 	/// <returns>Variable used in expression and polynomial degree</returns>
-	(Variable Var, int Degree) ValidateNode(Expression baseExpr)
+	static (Variable Var, int Degree) ValidateNode(Expression baseExpr)
 	{		
 		(Variable? usingVar, int deg) = ValidateNodeInternal(baseExpr, 0, null);
 
@@ -174,7 +174,7 @@ public class PolynomialExpression : Expression
 		return (usingVar, deg);
 	}
 
-	(Variable?, int) ValidateNodeInternal(Expression baseExpr, int highestDeg, Variable? usingVar = null)
+	static (Variable?, int) ValidateNodeInternal(Expression baseExpr, int highestDeg, Variable? usingVar = null)
 	{
 		if (baseExpr is OperationExpression opExpr)
 		{
@@ -214,11 +214,15 @@ public class PolynomialExpression : Expression
 
 			highestDeg = Math.Max(highestDeg, 1);
 		}
+		else if (baseExpr is not ValueExpression)
+		{
+			throw new ArgumentException($"Unsupported expression type used in polynomial expression: '{baseExpr.GetType()}'");
+		}
 
 		return (usingVar, highestDeg);
 	}
 
-	(Variable?, int) ValidatePowerExpr(PowerExpression powExpr, int highestDeg, Variable? usingVar = null)
+	static (Variable?, int) ValidatePowerExpr(PowerExpression powExpr, int highestDeg, Variable? usingVar = null)
 	{
 		(var innerVar, int innerDeg) = ValidateNodeInternal(powExpr.Base, 0, null); // the inside of a power expression can be a polynomial or constant
 	
