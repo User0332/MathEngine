@@ -1,7 +1,6 @@
 ﻿using MathEngine.Algebra;
 using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions.Polynomial;
-using MathEngine.Algebra.Solver;
 using MathEngine.Algebra.Solver.Polynomial;
 
 namespace MathEngine.Tests;
