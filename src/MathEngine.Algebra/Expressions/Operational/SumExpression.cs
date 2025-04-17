@@ -1,3 +1,4 @@
+using MathEngine.Algebra.Expressions.Simplification;
 using MathEngine.Values.Real.RationalValues;
 
 namespace MathEngine.Algebra.Expressions.Operational;
@@ -33,11 +34,11 @@ public sealed class SumExpression(Expression left, Expression right) : Operation
 		return new SumExpression(terms[startAt], FromTermsInternal(terms, startAt+1));
 	}
 
-	public override Expression Simplify()
+	public override Expression Simplify(SavedSimplificationInfo? info)
 	{
-		if (Left.Equals(Right)) return new ProductExpression((ValueExpression) 2, Left).Simplify();
+		if (Left.Equals(Right)) return new ProductExpression((ValueExpression) 2, Left).Simplify(info);
 
-		var (simplLeft, simplRight) = (Left.Simplify(), Right.Simplify());
+		var (simplLeft, simplRight) = (Left.Simplify(info), Right.Simplify(info));
 
 		if (simplLeft == Undefined || simplRight == Undefined) return Undefined;
 		

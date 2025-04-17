@@ -14,7 +14,7 @@ public sealed class Variable(char ident, string subscript = "") : Expression, IE
 	public static readonly Variable V = new('v');
 
 	/// <summary>
-	/// Usage of this field (or another Variable object whose IsRestricted property is true) in user code will result in undefined behavior
+	/// Usage of this field (or another Variable object whose IsRestricted attribute is true) in user code will result in undefined behavior
 	/// </summary>
 	public static readonly Variable InternalRestricted = new('@', "internalrestricted");
 	

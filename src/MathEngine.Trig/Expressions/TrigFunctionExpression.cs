@@ -1,5 +1,6 @@
 using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
+using MathEngine.Algebra.Expressions.Simplification;
 using MathEngine.Functions;
 using MathEngine.Trig.Functions;
 
@@ -7,7 +8,7 @@ namespace MathEngine.Trig.Expressions;
 
 internal sealed class TrigFunctionExpression(string funcName, Expression arg) : FunctionExpression(funcName, [arg])
 {
-	public override Expression Simplify()
+	public override Expression Simplify(SavedSimplificationInfo? info)
 	{
 		return FuncName switch
 		{

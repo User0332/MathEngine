@@ -1,6 +1,7 @@
 using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions.Operational;
 using MathEngine.Algebra.Expressions.Polynomial;
+using MathEngine.Algebra.Expressions.Simplification;
 using MathEngine.Values.Real.IrrationalValues;
 using MathEngine.Values.Real.RationalValues;
 using Rationals;
@@ -20,7 +21,31 @@ public abstract class Expression : IEquatable<Expression>
 	public abstract override string ToString();
 	public abstract string LaTeX();
 	public abstract string Repr();
-	public virtual Expression Simplify() => this;
+	
+	/// <summary>
+	/// Do not call this method from outside another <see cref="Expression.Simplify(SavedSimplificationInfo?)"/> method.
+	/// This is for internal implementation simplification utility only.
+	/// </summary>
+	/// <param name="info">The propagated <see cref="SavedSimplificationInfo"/></param>
+	/// <returns></returns>
+	public virtual Expression Simplify(SavedSimplificationInfo? info) => this;
+
+	/// <summary>
+	/// Public API to simplify an expression as much as possible using a method/strategy from <see cref="SimplificationStrategy"/>.
+	/// </summary>
+	/// <param name="strat">The strategy to use when simplifying the method</param>
+	/// <returns></returns>
+	public Expression Simplify(SimplificationStrategy strat = SimplificationStrategy.Default)
+	{
+		SavedSimplificationInfo? info = null;
+		
+		if (strat.HasFlag(SimplificationStrategy.UseInfo)) info = new();
+
+
+		// NOTE/TODO: to ensure that all parts of the expression are able to enjoy the benefits of having SavedSimplificationInfo, we should first
+		// do a "search" where we collect info, then a "simplify" where parts of the expression can use the info (and if they cancel something due to the undefined mechanics, they should record it by removing that from the info -- or you can support multiple cancels by making the dict point to an int and then decrementing)
+		return Simplify(info);
+	}
 
 	public PowerExpression Square() => new(this, (ValueExpression) 2);
 	public PowerExpression Cube() => new(this, (ValueExpression) 3);

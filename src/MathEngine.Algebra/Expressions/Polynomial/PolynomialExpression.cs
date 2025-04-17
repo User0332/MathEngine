@@ -1,5 +1,6 @@
 using MathEngine.Algebra.Equations;
 using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Algebra.Expressions.Simplification;
 using MathEngine.Algebra.Solver.Polynomial;
 using MathEngine.Values.Real.RationalValues;
 
@@ -51,7 +52,7 @@ public class PolynomialExpression : Expression
 	/// <returns>A mathematically equivalent PolynomialExpression in normalized form</returns>
 	public virtual NormalizedPolynomialExpression Normalize()
 	{
-		var simpl = BaseNode.Simplify();
+		var simpl = BaseNode.Simplify(); // as of now, we don't need to pass a simplification strategy since polynomials should be defined over (-inf, inf) as per validation
 
 		if (Zero.Equals(simpl)) return ZeroExpr(Variable);
 
@@ -100,7 +101,7 @@ public class PolynomialExpression : Expression
 		return new(normalizedTerms);
 	}
 
-	public override Expression Simplify() => BaseNode.Simplify();
+	public override Expression Simplify(SavedSimplificationInfo? info) => BaseNode.Simplify(info);
 
 	static ProductExpression NormalizeSimplifiedTerm(Expression term)
 	{

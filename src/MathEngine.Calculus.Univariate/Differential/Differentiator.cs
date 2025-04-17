@@ -1,6 +1,7 @@
 ﻿using MathEngine.Algebra;
 using MathEngine.Algebra.Expressions;
 using MathEngine.Algebra.Expressions.Operational;
+using MathEngine.Algebra.Expressions.Simplification;
 using MathEngine.CalcPlugin;
 using MathEngine.Functions;
 

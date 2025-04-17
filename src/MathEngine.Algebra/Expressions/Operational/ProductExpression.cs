@@ -1,4 +1,5 @@
 using System.Runtime.ConstrainedExecution;
+using MathEngine.Algebra.Expressions.Simplification;
 
 namespace MathEngine.Algebra.Expressions.Operational;
 
@@ -33,14 +34,14 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 		return new ProductExpression(factors[startAt], FromFactorsInternal(factors, startAt+1));
 	}
 
-	public override Expression Simplify() // TODO: simplification for rationals, etc. [see TODO file]
+	public override Expression Simplify(SavedSimplificationInfo? info) // TODO: simplification for rationals, etc. [see TODO file]
 	{
-		var (simplLeft, simplRight) = (Left.Simplify(), Right.Simplify());
+		var (simplLeft, simplRight) = (Left.Simplify(info), Right.Simplify(info));
 
 		if (simplLeft == Undefined || simplRight == Undefined) return Undefined;
 
 		if (simplLeft == Zero || simplRight == Zero) return Zero;
-		if (simplLeft == simplRight) return new PowerExpression(simplLeft, (ValueExpression) 2).Simplify();
+		if (simplLeft == simplRight) return new PowerExpression(simplLeft, (ValueExpression) 2).Simplify(info);
 		if (simplLeft == One) return simplRight;
 		if (simplRight == One) return simplLeft;
 
@@ -60,8 +61,8 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 		if (SimplificationUtils.TryCombineVariableDegree(simplLeft, simplRight, out var combinedDegree)) return combinedDegree;
 
 		// Distributive Property
-		if (simplLeft is SumExpression sumExpr) return new SumExpression(new ProductExpression(sumExpr.Left, simplRight).Simplify(), new ProductExpression(sumExpr.Right, simplRight).Simplify()).Simplify();
-		else if (simplRight is SumExpression sumExprR) return new SumExpression(new ProductExpression(simplLeft, sumExprR.Left).Simplify(), new ProductExpression(simplLeft, sumExprR.Right).Simplify()).Simplify();
+		if (simplLeft is SumExpression sumExpr) return new SumExpression(new ProductExpression(sumExpr.Left, simplRight).Simplify(info), new ProductExpression(sumExpr.Right, simplRight).Simplify(info)).Simplify(info);
+		else if (simplRight is SumExpression sumExprR) return new SumExpression(new ProductExpression(simplLeft, sumExprR.Left).Simplify(info), new ProductExpression(simplLeft, sumExprR.Right).Simplify(info)).Simplify(info);
 
 		// commutative property, try to multiply out constants and square variables
 		var factors = new ProductExpression(simplLeft, simplRight).ToFactors();
@@ -86,7 +87,7 @@ public sealed class ProductExpression(Expression left, Expression right) : Opera
 
 				var assoc = new ProductExpression(facL, facR);
 
-				var combineTry = assoc.Simplify();
+				var combineTry = assoc.Simplify(info);
 
 				if (combineTry != assoc) // something was actually simplified
 				{

@@ -1,3 +1,5 @@
+using MathEngine.Algebra.Expressions.Simplification;
+
 namespace MathEngine.Algebra.Expressions.Operational;
 
 public abstract class OperationExpression : Expression
@@ -36,7 +38,7 @@ public abstract class OperationExpression : Expression
 		return Left.ContainsVariable(testFor) || Right.ContainsVariable(testFor);
 	}
 
-	public abstract override Expression Simplify();
+	public abstract override Expression Simplify(SavedSimplificationInfo? info);
 
 	public override string Repr() // string.Replace() used to preserve cascading indentation
 	{

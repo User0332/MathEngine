@@ -1,4 +1,5 @@
 using System.Numerics;
+using MathEngine.Algebra.Expressions.Simplification;
 using MathEngine.Values.Real.RationalValues;
 using Rationals;
 
@@ -9,9 +10,9 @@ public sealed class PowerExpression(Expression left, Expression right) : Operati
 	public readonly Expression Base = left;
 	public readonly Expression Exponent = right;
 
-	public override Expression Simplify()
+	public override Expression Simplify(SavedSimplificationInfo? info)
 	{
-		var (simplBase, simplExp) = (Base.Simplify(), Exponent.Simplify());
+		var (simplBase, simplExp) = (Base.Simplify(info), Exponent.Simplify(info));
 
 		if (simplBase == Undefined || simplExp == Undefined) return Undefined;
 
