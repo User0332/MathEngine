@@ -4,15 +4,15 @@ namespace MathEngine.Calculus.Univariate.Limits;
 
 public class LimitSolver
 {
-	public List<ExpressionManipulationInfo> exprManipulators = [];
+	public List<IExpressionManipulationInfo> exprManipulators = [];
 
-	public void AddPlugin<T>() where T: ExpressionManipulationInfo, new()
+	public void AddPlugin<T>() where T: IExpressionManipulationInfo, new()
 	{
 		if (IsUsingPlugin<T>()) return;
 		exprManipulators.Add(new T());
 	}
 
-	public void RemovePlugin<T>() where T: ExpressionManipulationInfo
+	public void RemovePlugin<T>() where T: IExpressionManipulationInfo
 	{
 		foreach (var plugin in exprManipulators)
 		{
@@ -24,7 +24,7 @@ public class LimitSolver
 		}
 	}
 
-	public bool IsUsingPlugin<T>() where T: ExpressionManipulationInfo
+	public bool IsUsingPlugin<T>() where T: IExpressionManipulationInfo
 	{
 		return exprManipulators.Any(x => x is T);
 	}

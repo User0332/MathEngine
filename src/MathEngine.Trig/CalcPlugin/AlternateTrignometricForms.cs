@@ -5,7 +5,7 @@ using MathEngine.Trig.Functions;
 
 namespace MathEngine.Trig.CalcPlugin;
 
-public class AlternateTrignometricForms : ExpressionManipulationInfo
+public class AlternateTrignometricForms : IExpressionManipulationInfo
 {
 	static readonly HashSet<Expression>[] alternateFormData;
 	static readonly Variable internalVar = new('@', "internalrestricted_AlternateTrignometricForms");
